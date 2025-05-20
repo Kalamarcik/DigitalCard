@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+
+export interface SocialMedia {
+  id: number;
+  platform: string;
+  url: string;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  fullName: string;
+  bio: string;
+  avatarUrl: string;
+  socialMediaList: SocialMedia[];
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private API_URL = 'http://192.168.1.69:8080/api/users'; // spring ip
+
+  constructor(private http: HttpClient) {}
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.API_URL}/${id}`);
+  }
+}
