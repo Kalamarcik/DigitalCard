@@ -1,4 +1,3 @@
-// 1. DTO'ya userId alanını ekle
 package com.example.digitalcard.dto;
 
 public class SocialMediaDto {

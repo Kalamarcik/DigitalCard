@@ -69,7 +69,7 @@ public class UserController {
                 s.setId(sm.getId());
                 s.setPlatform(sm.getPlatform());
                 s.setUrl(sm.getUrl());
-                s.setUserId(user.getId()); // 🟢 BURASI EKLENİYOR
+                s.setUserId(user.getId());
                 return s;
             }).collect(Collectors.toList());
 

@@ -15,7 +15,7 @@ export class UserCardComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getUserById(3).subscribe({
+    this.userService.getUserById(4).subscribe({
       next: (data) => {
         console.log("Gelen kullanıcı:", data); // 👈 burada loglama var
         this.user = data;

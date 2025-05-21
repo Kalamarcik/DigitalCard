@@ -23,10 +23,19 @@ export interface User {
 })
 export class UserService {
   private API_URL = 'http://192.168.1.69:8080/api/users'; // spring ip
+  currentUser!: User;
 
   constructor(private http: HttpClient) {}
 
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.API_URL}/${id}`);
+  }
+
+  setCurrentUser(user: User) {
+    this.currentUser = user;
+  }
+
+  getCurrentUser(): User {
+    return this.currentUser;
   }
 }
