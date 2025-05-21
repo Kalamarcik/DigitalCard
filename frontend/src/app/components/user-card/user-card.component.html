@@ -1,14 +1,14 @@
-<div class="card-container" *ngIf="user">
-    <div class="card">
-      <img [src]="user.avatarUrl" alt="Avatar" class="avatar" />
-      <h2>{{ user.fullName }}</h2>
-      <p class="bio">{{ user.bio }}</p>
-  
-      <ul class="social-list">
-        <li *ngFor="let link of user.socialMediaList">
-          <a [href]="link.url" target="_blank">{{ link.platform }}</a>
-        </li>
-      </ul>
-    </div>
+<div class="user-card">
+  <img [src]="user.avatarUrl" alt="Avatar" class="avatar" />
+  <h2>{{ user.fullName }}</h2>
+  <p class="username">{{ user.username }}</p>
+  <p class="bio">{{ user.bio }}</p>
+
+  <div class="social-links">
+    <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank">{{ sm.platform }}</a>
   </div>
-  
+</div>
+
+
+
+<app-project-list [userId]="user.id"></app-project-list>

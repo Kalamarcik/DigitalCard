@@ -1,0 +1,10 @@
+<div class="project-card">
+  <img *ngIf="project.imageUrl" [src]="project.imageUrl" alt="Proje Göseli" class="project-image" />
+  <div class="project-info">
+    <h3>{{ project.title }}</h3>
+    <p class="description">{{ project.description }}</p>
+    <ul class="tech-list">
+      <li *ngFor="let tech of project.technologies">{{ tech }}</li>
+    </ul>
+  </div>
+</div>

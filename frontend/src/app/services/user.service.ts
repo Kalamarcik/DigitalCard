@@ -10,6 +10,7 @@ export interface SocialMedia {
 }
 
 export interface User {
+  subscribe(arg0: { next: (data: any) => void; error: (err: any) => void; }): unknown;
   id: number;
   username: string;
   fullName: string;

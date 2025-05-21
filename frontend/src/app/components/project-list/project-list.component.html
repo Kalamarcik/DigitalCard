@@ -1,0 +1,17 @@
+<div class="project-list-header">
+  <h3>Projeler</h3>
+  <button class="add-btn" (click)="goToAddProject()">+</button>
+</div>
+
+<div class="project-list">
+  <div class="project-card" *ngFor="let project of projects">
+    <img [src]="project.imageUrl" alt="Proje görseli" class="project-img" />
+    <div class="project-info">
+      <h3>{{ project.title }}</h3>
+      <p>{{ project.description | slice:0:100 }}...</p>
+      <ul class="tech-list">
+        <li *ngFor="let tech of project.technologies">{{ tech }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
