@@ -6,6 +6,7 @@
 
   <div class="social-links">
     <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank">{{ sm.platform }}</a>
+    <button (click)="logout()">Çıkış Yap</button>
   </div>
 </div>
 

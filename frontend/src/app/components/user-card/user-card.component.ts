@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService, User } from '../../services/user.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-card',
@@ -14,19 +14,36 @@ import { RouterModule } from '@angular/router';
 export class UserCardComponent implements OnInit {
   user!: User;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getUserById(1).subscribe({
-      next: (data) => {
-        console.log("Gelen kullanıcı:", data);
-        this.user = data;
-      },
-      error: (err) => console.error('Error:', err)
-    });
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      const userObj = JSON.parse(storedUser);
+      const userId = userObj.id;
+
+      this.userService.getUserById(userId).subscribe({
+        next: (data) => {
+          this.user = data;
+        },
+        error: (err) => console.error('Kullanıcı yüklenemedi:', err)
+      });
+    } else {
+      // localStorage'da kullanıcı yoksa login sayfasına yönlendir
+      this.router.navigate(['/auth/login']);
+    }
   }
 
+
+  logout(): void {
+  localStorage.removeItem('currentUser');
+  this.router.navigate(['/auth/login']);
+}
+
   goToAddProject(): void {
-    window.location.href = '/add-project';
+    this.router.navigate(['/add-project']);
   }
 }

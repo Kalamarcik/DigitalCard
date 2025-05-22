@@ -1,14 +1,32 @@
 import { Routes } from '@angular/router';
-import { UserCardComponent } from './components/user-card/user-card.component';
-import { ProjectFormComponent } from './components/project-form/project-form.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: UserCardComponent
+    redirectTo: 'auth/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'auth/login',
+    loadComponent: () =>
+      import('./components/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./components/user-card/user-card.component').then(m => m.UserCardComponent)
+  },
+  {
+    path: 'auth/register',
+    loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'add-project',
-    component: ProjectFormComponent
+    loadComponent: () =>
+      import('./components/project-form/project-form.component').then(m => m.ProjectFormComponent)
+  },
+  {
+    path: 'profile/edit',
+    loadComponent: () => import('./components/profile-edit/profile-edit.component').then(m => m.ProfileEditComponent)
   }
 ];

@@ -1,49 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ProjectService } from '../services/project.service';
-import { UserService } from '../services/user.service'; // ✅ eklendi
 
 @Component({
   selector: 'app-project-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './project-form.component.html',
-  styleUrls: ['./project-form.component.css']
+  templateUrl: 'project-form.component.html',
+  styleUrls: ['project-form.component.css']
 })
 export class ProjectFormComponent {
   form: FormGroup;
   selectedFile: File | null = null;
   message = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private projectService: ProjectService,
-    private userService: UserService // ✅ eklendi
-  ) {
+  @Output() projectUploaded = new EventEmitter<void>();
+
+  constructor(private fb: FormBuilder, private projectService: ProjectService) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       technologies: ['', Validators.required],
-      // ❌ userId burada artık sabit değil, submit anında eklenecek
+      userId: [currentUser.id || null, Validators.required] // ❗ Dinamik olarak userId çekiliyor
     });
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.[0]) {
-      this.selectedFile = input.files[0];
-    }
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
   }
 
   onSubmit(): void {
     if (this.form.valid && this.selectedFile) {
-      const currentUser = this.userService.getCurrentUser(); // ✅ user'ı al
-
       const formData = new FormData();
       const projectData = {
         ...this.form.value,
-        userId: currentUser.id, // ✅ dinamik userId
         technologies: this.form.value.technologies
           .split(',')
           .map((tech: string) => tech.trim())
@@ -55,16 +48,17 @@ export class ProjectFormComponent {
 
       this.projectService.uploadProject(formData).subscribe({
         next: () => {
-          this.message = 'Proje başarıyla yüklendi!';
+          this.message = 'Proje yüklendi';
           this.form.reset();
           this.selectedFile = null;
+          this.projectUploaded.emit();
         },
         error: () => {
-          this.message = 'Hata oluştu. Lütfen tekrar deneyin.';
+          this.message = 'Hata oluştu';
         }
       });
     } else {
-      this.message = 'Lütfen gerekli tüm alanları doldurun ve görsel seçin.';
+      this.message = 'Tüm alanlar zorunludur ve görsel seçilmelidir.';
     }
   }
 }

@@ -2,13 +2,14 @@ package com.example.digitalcard.controller;
 
 import com.example.digitalcard.dto.SocialMediaDto;
 import com.example.digitalcard.dto.UserDto;
+import com.example.digitalcard.dto.UserRequest;
+import com.example.digitalcard.entity.SocialMedia;
 import com.example.digitalcard.entity.User;
 import com.example.digitalcard.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -78,6 +79,56 @@ public class UserController {
 
         return dto;
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserRequest req) {
+        User user = userService.getUserById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setFullName(req.getFullName());
+        user.setBio(req.getBio());
+        user.setAvatarUrl(req.getAvatarUrl());
+
+        List<SocialMedia> existingList = user.getSocialMediaList();
+        List<SocialMediaDto> incomingList = req.getSocialMediaList();
+
+        // Silinecek olanlar
+        Set<Long> incomingIds = incomingList.stream()
+                .filter(i -> i.getId() != null)
+                .map(SocialMediaDto::getId)
+                .collect(Collectors.toSet());
+
+        existingList.removeIf(existing -> existing.getId() != null && !incomingIds.contains(existing.getId()));
+
+        for (SocialMediaDto dto : incomingList) {
+            if (dto.getId() != null) {
+                for (SocialMedia existing : existingList) {
+                    if (existing.getId().equals(dto.getId())) {
+                        existing.setPlatform(dto.getPlatform());
+                        existing.setUrl(dto.getUrl());
+                    }
+                }
+            } else {
+                SocialMedia sm = new SocialMedia();
+                sm.setPlatform(dto.getPlatform());
+                sm.setUrl(dto.getUrl());
+                sm.setUser(user);
+                existingList.add(sm);
+            }
+        }
+
+        user.setSocialMediaList(existingList);
+
+        User saved = userService.saveUser(user);
+        return ResponseEntity.ok(mapToDto(saved));
+    }
+
+
+
+
+
+
 
 
 }

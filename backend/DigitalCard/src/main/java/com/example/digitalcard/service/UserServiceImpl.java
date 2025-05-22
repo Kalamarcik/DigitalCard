@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+
+    @Override
+    public boolean usernameExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

@@ -1,0 +1,23 @@
+<div class="register-container">
+  <h2>Kayıt Ol</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label>E-posta:</label>
+    <input formControlName="email" type="email" placeholder="E-posta adresiniz" />
+    
+    <label>Kullanıcı Adı:</label>
+    <input formControlName="username" type="text" placeholder="Kullanıcı adınız" />
+    
+    <label>Ad Soyad:</label>
+    <input formControlName="fullName" type="text" placeholder="Adınız ve Soyadınız" />
+    
+    <label>Şifre:</label>
+    <input formControlName="password" type="password" placeholder="Şifreniz" />
+    
+    <label>Avatar URL (isteğe bağlı):</label>
+    <input formControlName="avatarUrl" type="text" placeholder="Avatar görsel linki" />
+
+    <button type="submit">Kayıt Ol</button>
+  </form>
+
+  <p class="message" *ngIf="message">{{ message }}</p>
+</div>

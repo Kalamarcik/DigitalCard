@@ -1,8 +1,9 @@
 package com.example.digitalcard.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,24 @@ public class User {
 
     private String avatarUrl;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime lastLogin;
+
+    private Integer loginCount;
+
+    private String lastLoginIp;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SocialMedia> socialMediaList;
 
-    // Boş constructor (JPA için)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects;
+
+    // JPA için boş constructor
     public User() {}
 
-    // Parametreli constructor
     public User(String username, String fullName, String bio, String email, String password, String avatarUrl) {
         this.username = username;
         this.fullName = fullName;
@@ -40,6 +52,13 @@ public class User {
         this.email = email;
         this.password = password;
         this.avatarUrl = avatarUrl;
+    }
+
+    // @PrePersist ile otomatik createdAt ataması
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.loginCount = 0;
     }
 
     // Getter & Setter’lar
@@ -103,4 +122,39 @@ public class User {
         this.socialMediaList = socialMediaList;
     }
 
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Integer getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(Integer loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public String getLastLoginIp() {
+        return lastLoginIp;
+    }
+
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
+    }
 }

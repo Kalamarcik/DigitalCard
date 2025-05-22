@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -19,11 +18,13 @@ export class ProjectFormComponent {
   @Output() projectUploaded = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder, private projectService: ProjectService) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       technologies: ['', Validators.required],
-      userId: [1] // Geçici, dinamik hale getirilebilir
+      userId: [currentUser.id || null, Validators.required] // ❗ Dinamik olarak userId çekiliyor
     });
   }
 

@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <a routerLink="/" class="logo">Dijital Kart</a>
+
+  <div class="nav-links">
+    <a *ngIf="!isLoggedIn" routerLink="/auth/login">Giriş Yap</a>
+    <a *ngIf="!isLoggedIn" routerLink="/auth/register">Kayıt Ol</a>
+
+    <a *ngIf="isLoggedIn" routerLink="/profile">Profil</a>
+    <a *ngIf="isLoggedIn" (click)="logout()" class="logout">Çıkış Yap</a>
+  </div>
+</nav>
