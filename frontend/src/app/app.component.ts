@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService, User } from './services/user.service';
 import { UserCardComponent } from './components/user-card/user-card.component';
-import { ProjectFormComponent } from "./components/project-form.component";
+import { ProjectFormComponent } from "./components/project-form/project-form.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 @Component({

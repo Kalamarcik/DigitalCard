@@ -1,17 +1,20 @@
 <div class="project-list-header">
   <h3>Projeler</h3>
-  <button class="add-btn" (click)="goToAddProject()">+</button>
+  <button class="add-btn" (click)="openModal()">+</button>
 </div>
 
-<div class="project-list">
-  <div class="project-card" *ngFor="let project of projects">
-    <img [src]="project.imageUrl" alt="Proje görseli" class="project-img" />
-    <div class="project-info">
-      <h3>{{ project.title }}</h3>
-      <p>{{ project.description | slice:0:100 }}...</p>
-      <ul class="tech-list">
-        <li *ngFor="let tech of project.technologies">{{ tech }}</li>
-      </ul>
-    </div>
+<!-- Kartları grid yapısında göster -->
+<div class="project-grid">
+  <app-project-card *ngFor="let project of projects" [project]="project"></app-project-card>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-content">
+    <button class="close-btn" (click)="closeModal()">X</button>
+    <app-project-form
+      [userId]="userId"
+      (projectUploaded)="onProjectUploaded()"
+    ></app-project-form>
   </div>
 </div>

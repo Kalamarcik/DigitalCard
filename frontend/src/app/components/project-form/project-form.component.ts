@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output , Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
@@ -7,15 +7,19 @@ import { ProjectService } from '../../services/project.service';
   selector: 'app-project-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: '../project-form.component.html',
-  styleUrls: ['../project-form.component.css']
+  templateUrl: './project-form.component.html',
+  styleUrls: ['./project-form.component.css']
 })
 export class ProjectFormComponent {
+onCancel() {
+throw new Error('Method not implemented.');
+}
   form: FormGroup;
   selectedFile: File | null = null;
   message = '';
 
   @Output() projectUploaded = new EventEmitter<void>();
+   @Input() userId!: number;
 
   constructor(private fb: FormBuilder, private projectService: ProjectService) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -48,7 +52,7 @@ export class ProjectFormComponent {
 
       this.projectService.uploadProject(formData).subscribe({
         next: () => {
-          this.message = 'Proje yüklendi';
+          this.message = 'Proje yüklendiiii';
           this.form.reset();
           this.selectedFile = null;
           this.projectUploaded.emit();

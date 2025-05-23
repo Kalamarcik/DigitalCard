@@ -9,7 +9,7 @@ import { Project } from '../../services/project.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './project-card.component.html',
-  //styleUrls: ['./project-card.component.css']
+  styleUrls: ['./project-card.component.css']
 })
 export class ProjectCardComponent {
   @Input() project!: Project;

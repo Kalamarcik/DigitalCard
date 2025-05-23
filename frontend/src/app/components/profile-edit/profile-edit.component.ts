@@ -1,4 +1,4 @@
-
+// src/app/components/profile-edit/profile-edit.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile-edit.component.css']
 })
 export class ProfileEditComponent implements OnInit {
-  form: FormGroup | null = null;
+  form!: FormGroup;
   userId!: number;
   message = '';
 
@@ -29,7 +29,6 @@ export class ProfileEditComponent implements OnInit {
       this.router.navigate(['/auth/login']);
       return;
     }
-
     const user = JSON.parse(storedUser);
     this.userId = user.id;
 
@@ -37,20 +36,22 @@ export class ProfileEditComponent implements OnInit {
       fullName: [user.fullName || '', Validators.required],
       bio: [user.bio || ''],
       avatarUrl: [user.avatarUrl || ''],
-      socialMediaList: this.fb.array(
-        (user.socialMediaList || []).map((s: any) =>
-          this.fb.group({
-            id: [s.id],
-            platform: [s.platform, Validators.required],
-            url: [s.url, Validators.required]
-          })
-        )
-      )
+      socialMediaList: this.fb.array([])
     });
+
+    if (user.socialMediaList && Array.isArray(user.socialMediaList)) {
+      user.socialMediaList.forEach((s: any) => {
+        this.socialMediaList.push(this.fb.group({
+          id: [s.id],
+          platform: [s.platform, Validators.required],
+          url: [s.url, Validators.required]
+        }));
+      });
+    }
   }
 
   get socialMediaList(): FormArray {
-    return this.form?.get('socialMediaList') as FormArray;
+    return this.form.get('socialMediaList') as FormArray;
   }
 
   addSocialMedia(): void {
@@ -68,12 +69,11 @@ export class ProfileEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.form?.valid) {
+    if (this.form.valid) {
       const updateData = {
         ...this.form.value,
         id: this.userId
       };
-
       this.http.put(`http://localhost:8080/api/users/${this.userId}`, updateData).subscribe({
         next: (updatedUser) => {
           localStorage.setItem('currentUser', JSON.stringify(updatedUser));
