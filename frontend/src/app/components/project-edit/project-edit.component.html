@@ -1,0 +1,32 @@
+<div class="edit-form-wrapper">
+  <h2>Projeyi Düzenle</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Başlık</label>
+      <input id="title" formControlName="title" type="text" placeholder="Proje başlığı" />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Açıklama</label>
+      <textarea id="description" formControlName="description" rows="4" placeholder="Proje açıklaması"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="technologies">Teknolojiler <small>(virgülle ayırın)</small></label>
+      <input id="technologies" formControlName="technologies" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label for="image">Yeni Görsel (İsteğe Bağlı)</label>
+      <input id="image" type="file" (change)="onFileSelected($event)" />
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Kaydet</button>
+      <button type="button" class="cancel" (click)="onCancel()">İptal</button>
+    </div>
+
+    <p class="message" *ngIf="message">{{ message }}</p>
+  </form>
+</div>

@@ -16,6 +16,7 @@ export interface User {
   fullName: string;
   bio: string;
   avatarUrl: string;
+  email: string;
   socialMediaList: SocialMedia[];
 }
 
@@ -39,4 +40,8 @@ export class UserService {
   getCurrentUser(): User {
     return this.currentUser;
   }
+
+  getUserByUsername(username: string): Observable<User> {
+  return this.http.get<User>(`${this.API_URL}/by-username/${username}`);
+}
 }

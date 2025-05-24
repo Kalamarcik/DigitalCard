@@ -1,0 +1,125 @@
+.user-profile {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+.avatar-large {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.social-links {
+  margin-top: 15px;
+}
+.user-card {
+  position: relative;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 32px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.avatar {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.username {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.bio {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.social-links {
+  margin-bottom: 12px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 8px;
+  font-size: 14px;
+  color: #0073b1;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  border-bottom-color: #0073b1;
+}
+
+.contact-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10%;
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.contact-btn:hover {
+  background-color: #005fa3;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-container {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.user-card-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}

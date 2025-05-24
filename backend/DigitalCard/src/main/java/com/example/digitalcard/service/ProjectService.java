@@ -9,4 +9,5 @@ public interface ProjectService {
     ProjectDto saveProject(ProjectDto dto, MultipartFile imageFile);
     List<ProjectDto> getProjectsByUserId(Long userId);
     void deleteProject(Long projectId);
+    ProjectDto updateProject(ProjectDto dto, MultipartFile imageFile);
 }

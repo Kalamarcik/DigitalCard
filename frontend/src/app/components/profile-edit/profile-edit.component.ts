@@ -74,7 +74,7 @@ export class ProfileEditComponent implements OnInit {
         ...this.form.value,
         id: this.userId
       };
-      this.http.put(`http://localhost:8080/api/users/${this.userId}`, updateData).subscribe({
+      this.http.put(`http://192.168.1.69:8080/api/users/${this.userId}`, updateData).subscribe({
         next: (updatedUser) => {
           localStorage.setItem('currentUser', JSON.stringify(updatedUser));
           this.message = 'Profil güncellendi!';

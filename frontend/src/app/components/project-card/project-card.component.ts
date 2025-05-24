@@ -1,6 +1,5 @@
 
-// src/app/components/project-card/project-card.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../services/project.service';
 
@@ -13,4 +12,11 @@ import { Project } from '../../services/project.service';
 })
 export class ProjectCardComponent {
   @Input() project!: Project;
+  @Input() editable: boolean = false; //  buton görünsün mü?
+  @Output() edit = new EventEmitter<Project>();
+triggerEdit(): void {
+    this.edit.emit(this.project); // ← Project'i dışarıya fırlatıyoruz
+  }
+
+  
 }

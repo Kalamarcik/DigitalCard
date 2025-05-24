@@ -13,11 +13,23 @@
   <h3>Sosyal Medya Hesapları</h3>
   <div formArrayName="socialMediaList">
     <div *ngFor="let sm of socialMediaList.controls; let i = index" [formGroupName]="i" class="social-item">
-      <label>Platform:</label>
-      <input formControlName="platform" type="text" />
+      <div class="platform-select">
+        <label>Platform:</label>
+        <select formControlName="platform">
+          <option value="">Platform Seçin</option>
+          <option value="GitHub">GitHub</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="Twitter">Twitter</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Behance">Behance</option>
+          <option value="Dribbble">Dribbble</option>
+        </select>
+      </div>
 
-      <label>URL:</label>
-      <input formControlName="url" type="text" />
+      <div class="url-input">
+        <label>URL:</label>
+        <input formControlName="url" type="text" />
+      </div>
 
       <button type="button" (click)="removeSocialMedia(i)">Sil</button>
     </div>

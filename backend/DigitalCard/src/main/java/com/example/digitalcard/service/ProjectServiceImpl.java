@@ -60,6 +60,38 @@ public class ProjectServiceImpl implements ProjectService {
         return dto;
     }
 
+
+
+    @Override
+    public ProjectDto updateProject(ProjectDto dto, MultipartFile imageFile) {
+        Project existing = projectRepo.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        existing.setTitle(dto.getTitle());
+        existing.setDescription(dto.getDescription());
+        existing.setTechnologies(dto.getTechnologies());
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "-" + imageFile.getOriginalFilename();
+            String uploadPath = System.getProperty("user.dir") + "/uploads";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+
+            try {
+                File destinationFile = new File(uploadPath + "/" + fileName);
+                imageFile.transferTo(destinationFile);
+                existing.setImagePath("/uploads/" + fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Image upload failed", e);
+            }
+        }
+
+        Project saved = projectRepo.save(existing);
+
+        dto.setImageUrl(saved.getImagePath());
+        return dto;
+    }
+
     @Override
     public List<ProjectDto> getProjectsByUserId(Long userId) {
         return projectRepo.findByUserId(userId).stream().map(project -> {

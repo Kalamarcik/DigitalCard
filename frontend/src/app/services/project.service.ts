@@ -15,7 +15,8 @@ export interface Project {
   providedIn: 'root'
 })
 export class ProjectService {
-  private API_URL = 'http://localhost:8080/api/projects';
+  
+  private API_URL = 'http://192.168.1.69:8080/api/projects';
 
   constructor(private http: HttpClient) {}
 
@@ -29,5 +30,9 @@ export class ProjectService {
 
   deleteProject(projectId: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${projectId}`);
+  }
+
+  updateProject(id: number, formData: FormData): Observable<Project> {
+    return this.http.put<Project>(`${this.API_URL}/${id}`, formData);
   }
 }

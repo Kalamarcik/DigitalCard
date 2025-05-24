@@ -7,23 +7,21 @@ import { ProjectCardComponent } from '../project-card/project-card.component';
 import { ProjectEditComponent } from '../project-edit/project-edit.component';
 
 @Component({
-  selector: 'app-project-list',
+  selector: 'app-cards-project-list',
   standalone: true,
   imports: [CommonModule, RouterModule, ProjectFormComponent, ProjectCardComponent, ProjectEditComponent],
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  templateUrl: './cards-project-list.component.html',
+  styleUrls: ['./cards-project-list.component.css']
 })
-export class ProjectListComponent implements OnInit {
+export class CardsProjectListComponent implements OnInit {
   @Input() userId!: number;
-  @Input() editable!: boolean;
-
   projects: Project[] = [];
 
   showAddModal = false;
   showEditModal = false;
   selectedProject: Project | null = null;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.loadProjects();
@@ -63,10 +61,10 @@ export class ProjectListComponent implements OnInit {
     this.loadProjects();
   }
 
-  editingProject: Project | null = null; // şu an düzenlenen proje
+    editingProject: Project | null = null; // şu an düzenlenen proje
 
 
-  openEditModal2(project: Project): void {
+   openEditModal2(project: Project): void {
     this.editingProject = project;
   }
 
@@ -77,4 +75,8 @@ export class ProjectListComponent implements OnInit {
   onProjectUpdated2(): void {
     this.loadProjects(); // güncel projeleri tekrar yükle
   }
+
+  
+
+  
 }

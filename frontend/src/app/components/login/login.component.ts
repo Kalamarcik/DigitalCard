@@ -28,7 +28,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.http.post('http://localhost:8080/api/auth/login', this.form.value).subscribe({
+      this.http.post('http://192.168.1.69:8080/api/auth/login', this.form.value).subscribe({
         next: (res: any) => {
           localStorage.setItem('currentUser', JSON.stringify(res));
           this.router.navigate(['/profile']);

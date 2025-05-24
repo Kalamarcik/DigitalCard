@@ -4,6 +4,7 @@ import { UserService, User } from './services/user.service';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { ProjectFormComponent } from "./components/project-form/project-form.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,10 @@ import { HeaderComponent } from "./components/header/header.component";
 })
 export class AppComponent implements OnInit {
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private themeService: ThemeService) {}
 
   ngOnInit(): void {
+    this.themeService.initializeTheme();
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       const userObj: User = JSON.parse(storedUser);

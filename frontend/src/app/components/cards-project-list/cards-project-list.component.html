@@ -1,0 +1,18 @@
+<div class="projects-section">
+  <div class="projects-header">
+    <h2>Projeler</h2>
+    
+  </div>
+
+  <div class="project-list">
+     <app-project-card
+  *ngFor="let project of projects"
+  [project]="project"
+  [editable]="false"
+/>
+  </div>
+  
+</div>
+
+
+

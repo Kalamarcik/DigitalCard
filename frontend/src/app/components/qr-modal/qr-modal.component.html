@@ -1,0 +1,13 @@
+<div class="qr-modal" *ngIf="showQr">
+  <div class="qr-container">
+    <button class="qr-close-btn" (click)="close()">×</button>
+
+    <h3>Profil QR Kodu</h3>
+    <img #qrImg [src]="qrCodeUrl" alt="QR Kod" />
+
+    <div class="qr-actions">
+      <button (click)="downloadQr(qrImg)">İndir</button>
+      <button *ngIf="isDesktop" (click)="shareQr()">Paylaş</button>
+    </div>
+  </div>
+</div>

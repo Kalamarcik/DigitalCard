@@ -1,20 +1,49 @@
-<div class="project-list-header">
-  <h3>Projeler</h3>
-  <button class="add-btn" (click)="openModal()">+</button>
+<div class="projects-section">
+ <div class="projects-header">
+  <h2>Projeler</h2>
+  <div class="header-actions" *ngIf="editable">
+    <button class="add-btn" (click)="openAddModal()">＋</button>
+  </div>
 </div>
 
-<!-- Kartları grid yapısında göster -->
-<div class="project-grid">
-  <app-project-card *ngFor="let project of projects" [project]="project"></app-project-card>
+  <div class="project-list">
+  <app-project-card
+    *ngFor="let project of projects"
+    [project]="project"
+    (edit)="openEditModal2(project)" 
+    [editable]="editable"
+
+  ></app-project-card>
 </div>
 
-<!-- Modal -->
-<div class="modal-backdrop" *ngIf="showModal">
-  <div class="modal-content">
-    <button class="close-btn" (click)="closeModal()">X</button>
+</div>
+
+<!-- Ekleme Modalı -->
+<div class="modal-backdrop" *ngIf="showAddModal && editable">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Yeni Proje</h2>
+      <button class="close-btn" (click)="closeAddModal()">×</button>
+    </div>
     <app-project-form
       [userId]="userId"
       (projectUploaded)="onProjectUploaded()"
     ></app-project-form>
   </div>
+</div>
+
+<!-- Düzenleme Modalı -->
+<div class="modal-backdrop" *ngIf="editingProject">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Projeyi Düzenle</h2>
+      <button class="close-btn" (click)="closeEditModal2()">×</button>
+    </div>
+    <app-project-edit
+      [project]="editingProject"
+      [onClose]="closeEditModal2.bind(this)"
+      [onUpdate]="onProjectUpdated2.bind(this)"
+    ></app-project-edit>
+  </div>
+  
 </div>

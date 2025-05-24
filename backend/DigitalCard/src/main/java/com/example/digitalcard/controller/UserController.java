@@ -5,6 +5,7 @@ import com.example.digitalcard.dto.UserDto;
 import com.example.digitalcard.dto.UserRequest;
 import com.example.digitalcard.entity.SocialMedia;
 import com.example.digitalcard.entity.User;
+import com.example.digitalcard.service.QrCodeService;
 import com.example.digitalcard.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,12 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final QrCodeService qrCodeService;
 
-    public UserController(UserService userService) {
+
+    public UserController(UserService userService, QrCodeService qrCodeService) {
         this.userService = userService;
+        this.qrCodeService = qrCodeService;
     }
 
     // Yeni kullanıcı oluştur
@@ -54,6 +58,60 @@ public class UserController {
         UserDto dto = mapToDto(user);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<UserDto> getUserDtoByUsername(@PathVariable String username) {
+        User user = userService.getByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        UserDto dto = mapToDto(user);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/cards")
+    public ResponseEntity<List<UserDto>> getAll(
+            @RequestParam(required = false) String query) {
+
+        List<User> users = userService.getAllUsers();
+
+        // Filtreleme varsa burauygula
+        if (query != null && !query.isBlank()) {
+            String lowerQuery = query.toLowerCase();
+            users = users.stream()
+                    .filter(user -> user.getUsername().toLowerCase().contains(lowerQuery)
+                            || user.getFullName().toLowerCase().contains(lowerQuery))
+                    .collect(Collectors.toList());
+        }
+        //yoksa bura
+        List<UserDto> dtos = users.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
+    }
+
+
+    @GetMapping("/qr/username/{username}")
+    public ResponseEntity<byte[]> getQrCodeByUsername(@PathVariable String username) {
+        try {
+            String url = "http://192.168.1.69:4200/cards/" + username;
+            System.out.println("QR URL: " + url); // 👉 BURAYI KONTROL ET
+
+            byte[] qrImage = qrCodeService.generateQrCode(url, 250, 250);
+
+            return ResponseEntity.ok()
+                    .header("Content-Type", "image/png")
+                    .header("Cache-Control", "no-cache, no-store, must-revalidate")
+                    .header("Pragma", "no-cache")
+                    .header("Expires", "0")
+                    .body(qrImage);
+        } catch (Exception e) {
+            e.printStackTrace(); // hata varsa göster
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+
+
+
 
     private UserDto mapToDto(User user) {
         UserDto dto = new UserDto();

@@ -1,15 +1,70 @@
 <div class="user-card">
+  <div class="user-card-header">
+    <button class="contact-btn" (click)="openContactModal()">İletişim</button>
+    <button class="qr-btn" *ngIf="editable" (click)="showQr = true">📱 QR Kod</button>
+    <button class="theme-toggle" (click)="toggleTheme()">🌓 Tema Değiştir</button>
+
+  </div>
+
   <img [src]="user.avatarUrl" alt="Avatar" class="avatar" />
   <h2>{{ user.fullName }}</h2>
   <p class="username">{{ user.username }}</p>
   <p class="bio">{{ user.bio }}</p>
 
   <div class="social-links">
-    <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank">{{ sm.platform }}</a>
+    <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank">
+      <i class="fa fa-external-link-alt"></i> {{ sm.platform }}
+    </a>
+  </div>
+
+  <div class="action-links" *ngIf="editable">
+    <button (click)="openProfileModal()">Profili Düzenle</button>
     <button (click)="logout()">Çıkış Yap</button>
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="showProfileModal && editable">
+  <div class="modal-content">
+    <button class="close-btn" (click)="closeProfileModal()">X</button>
+    <app-profile-edit></app-profile-edit>
+  </div>
+</div>
+
+<app-project-list [userId]="user.id" [editable]="editable"></app-project-list>
+
+<!-- İletişim Modalı -->
+<div class="modal-backdrop" *ngIf="contactModalOpen">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>Bana Ulaş</h2>
+      <button class="close-btn" (click)="closeContactModal()">×</button>
+    </div>
+    <p style="text-align: center;">
+      <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+    </p>
+  </div>
+</div>
 
 
-<app-project-list [userId]="user.id"></app-project-list>
+<div class="qr-modal" *ngIf="showQr">
+
+  <app-qr-modal 
+  [showQr]="showQr" 
+  [qrCodeUrl]="qrCodeUrl" 
+  [close]="closeQrModal">
+</app-qr-modal>
+
+  <!-- div class="qr-container">
+    <button class="qr-close-btn" (click)="showQr = false">×</button>
+    
+    <h3>Profil QR Kodu</h3>
+    <img #qrImg [src]="qrCodeUrl" alt="QR Kod" />
+
+    <div class="qr-actions">
+      <button (click)="downloadQr(qrImg)">İndir</button>
+      <button (click)="shareQr()">Paylaş</button>
+    </div>
+  </div> -->
+</div>
+
