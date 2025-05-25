@@ -27,7 +27,7 @@ export class UserService {
   private API_URL = 'http://192.168.1.69:8080/api/users';
   currentUser!: User;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = JSON.parse(localStorage.getItem('token') || '{}');
@@ -51,6 +51,15 @@ export class UserService {
   getUserByUsername(username: string): Observable<User> {
     return this.http.get<User>(`${this.API_URL}/by-username/${username}`, {
       headers: this.getAuthHeaders()
+    });
+  }
+
+  getUserByUsernameWithLocation(username: string, lat: number, lon: number): Observable<User> {
+    return this.http.get<User>(`http://192.168.1.69:8080/api/users/by-username/${username}`, {
+      params: {
+        lat: lat.toString(),
+        lon: lon.toString()
+      }
     });
   }
 }

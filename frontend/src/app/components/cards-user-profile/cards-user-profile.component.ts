@@ -31,16 +31,55 @@ contactModalOpen: any;
   ) {}
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username')!;
-    this.http.get<User>(`http://192.168.1.69:8080/api/users/by-username/${this.username}`).subscribe({
-      next: (data) => {
-        this.user = data;
-        this.loading = false;
+  this.username = this.route.snapshot.paramMap.get('username')!;  
+  // 🌍 Konumu al ve backend'e konumla birlikte isteği gönder
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(position);
+
+        this.http.get<User>(`http://192.168.1.69:8080/api/users/by-username/${this.username}`, {
+          params: {
+            lat: latitude.toString(),
+            lon: longitude.toString()
+          }
+        }).subscribe({
+          next: (data) => {
+            this.user = data;
+            this.loading = false;
+          },
+          error: () => {
+            this.error = 'Kullanıcı bulunamadı';
+            this.loading = false;
+          }
+        });
       },
-      error: () => {
-        this.error = 'Kullanıcı bulunamadı';
-        this.loading = false;
+      (error) => {
+        // ❌ Konum alınamazsa yine isteği konumsuz gönder
+        console.warn('Konum alınamadı:', error.message);
+        this.sendRequestWithoutLocation();
       }
-    });
+    );
+  } else {
+    console.warn('Tarayıcı geolocation desteklemiyor.');
+    this.sendRequestWithoutLocation();
   }
+}
+
+// 🌐 Konumsuz istek fonksiyonu
+sendRequestWithoutLocation() {
+  this.http.get<User>(`http://192.168.1.69:8080/api/users/by-username/${this.username}`).subscribe({
+    next: (data) => {
+      this.user = data;
+      this.loading = false;
+    },
+    error: () => {
+      this.error = 'Kullanıcı bulunamadı';
+      this.loading = false;
+    }
+  });
+}
+
 }

@@ -1,9 +1,13 @@
 package com.example.digitalcard.entity;
 
+import com.example.digitalcard.repository.GuestVisitRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,6 +51,9 @@ public class User {
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skill> skills;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GuestVisit> guestVisits = new ArrayList<>();
 
 
     // JPA için boş constructor
@@ -188,4 +195,14 @@ public class User {
     public void setGuestCount(Integer guestCount) {
         this.guestCount = guestCount;
     }
+
+    public List<GuestVisit> getGuestVisits() {
+        return guestVisits;
+    }
+
+    public void setGuestVisits(List<GuestVisit> guestVisits) {
+        this.guestVisits = guestVisits;
+    }
+
+
 }

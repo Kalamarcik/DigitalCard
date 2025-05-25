@@ -12,6 +12,7 @@ import { SkillListComponent } from '../skill-list/skill-list.component';
 import { Skill } from '../../services/skill.service';
 import { SkillFormComponent } from '../skill-form/skill-form.component';
 import { JsonUploadComponent } from "../json-upload/json-upload.component";
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-card',
@@ -41,6 +42,11 @@ export class UserCardComponent implements OnInit {
 showQr = false;
 qrCodeUrl = '';
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = JSON.parse(localStorage.getItem('token') || '{}');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   ngOnInit(): void {
   const routeData = this.route.snapshot.data;
   this.editable = routeData['editable'] || false;
@@ -49,15 +55,51 @@ qrCodeUrl = '';
 
   if (routeUsername) {
     // /cards/:username → başkasının profili
-    this.userService.getUserByUsername(routeUsername).subscribe({
-      next: (data) => {
-        this.user = data;
-      },
-      error: (err) => {
-        console.error('Kullanıcı bulunamadı:', err);
-        this.router.navigate(['/auth/login']);
-      }
-    });
+
+    // 🌍 Konumu alıp API'ye birlikte gönder
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          this.userService.getUserByUsernameWithLocation(routeUsername, lat, lon).subscribe({
+            next: (data) => {
+              this.user = data;
+            },
+            error: (err) => {
+              console.error('Kullanıcı bulunamadı:', err);
+              this.router.navigate(['/auth/login']);
+            }
+          });
+        },
+        (error) => {
+          console.warn('Konum alınamadı:', error.message);
+          // konum alınamazsa konumsuz gönder
+          this.userService.getUserByUsername(routeUsername).subscribe({
+            next: (data) => {
+              this.user = data;
+            },
+            error: (err) => {
+              console.error('Kullanıcı bulunamadı:', err);
+              this.router.navigate(['/auth/login']);
+            }
+          });
+        }
+      );
+    } else {
+      console.warn('Tarayıcı geolocation desteklemiyor.');
+      this.userService.getUserByUsername(routeUsername).subscribe({
+        next: (data) => {
+          this.user = data;
+        },
+        error: (err) => {
+          console.error('Kullanıcı bulunamadı:', err);
+          this.router.navigate(['/auth/login']);
+        }
+      });
+    }
+
   } else {
     // /profile → giriş yapmış kullanıcı
     const storedUser = localStorage.getItem('currentUser');
@@ -65,7 +107,6 @@ qrCodeUrl = '';
       const userObj = JSON.parse(storedUser);
       const userId = userObj.id;
       this.qrCodeUrl = `http://192.168.1.69:8080/api/users/qr/username/${userObj.username}`;
-
 
       this.userService.getUserById(userId).subscribe({
         next: (data) => {
@@ -78,6 +119,7 @@ qrCodeUrl = '';
     }
   }
 }
+
 
 
 toggleTheme(): void {

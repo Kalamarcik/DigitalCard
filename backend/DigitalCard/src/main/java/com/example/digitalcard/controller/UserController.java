@@ -3,10 +3,13 @@ package com.example.digitalcard.controller;
 import com.example.digitalcard.dto.SocialMediaDto;
 import com.example.digitalcard.dto.UserDto;
 import com.example.digitalcard.dto.UserRequest;
+import com.example.digitalcard.entity.GuestVisit;
 import com.example.digitalcard.entity.SocialMedia;
 import com.example.digitalcard.entity.User;
+import com.example.digitalcard.repository.GuestVisitRepository;
 import com.example.digitalcard.service.QrCodeService;
 import com.example.digitalcard.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +22,16 @@ public class UserController {
 
     private final UserService userService;
     private final QrCodeService qrCodeService;
+    private final GuestVisitRepository guestVisitRepository;
 
 
-    public UserController(UserService userService, QrCodeService qrCodeService) {
+
+    public UserController(UserService userService,
+                          QrCodeService qrCodeService,
+                          GuestVisitRepository guestVisitRepository) {
         this.userService = userService;
         this.qrCodeService = qrCodeService;
+        this.guestVisitRepository = guestVisitRepository;
     }
 
     // Yeni kullanıcı oluştur
@@ -59,18 +67,46 @@ public class UserController {
     }
 
     @GetMapping("/by-username/{username}")
-    public ResponseEntity<UserDto> getUserDtoByUsername(@PathVariable String username) {
+    public ResponseEntity<UserDto> getUserDtoByUsername(
+            @PathVariable String username,
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lon,
+            HttpServletRequest request) {
+
         User user = userService.getByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 👇 Guest sayısını artır
-        Integer oldCount = user.getGuestCount() != null ? user.getGuestCount() : 0;
-        user.setGuestCount(oldCount + 1);
-        userService.saveUser(user); // guestCount artışını kaydet
+        // lat/lon varsa logla ya da konumla ilgili işlem yap
+        if (lat != null && lon != null) {
+            System.out.println("Ziyaretçi konumu: LAT=" + lat + " LON=" + lon);
+        }
+
+        // ✅ guestCount artır
+        user.setGuestCount((user.getGuestCount() == null ? 0 : user.getGuestCount()) + 1);
+
+        // ✅ IP adresini al
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        // ✅ Yeni ziyaret kaydı oluştur
+        GuestVisit visit = new GuestVisit();
+        visit.setUser(user);
+        visit.setIp(ipAddress);
+
+        if (lat != null) visit.setLatitude(lat);
+        if (lon != null) visit.setLongitude(lon);
+
+        guestVisitRepository.save(visit);
+
+        user.getGuestVisits().add(visit); // cascade.ALL sayesinde otomatik kayıt olur
+        userService.saveUser(user);
 
         UserDto dto = mapToDto(user);
         return ResponseEntity.ok(dto);
     }
+
 
 
     @GetMapping("/cards")
