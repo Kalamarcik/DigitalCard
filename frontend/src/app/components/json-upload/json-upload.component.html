@@ -1,0 +1,28 @@
+<div class="p-4 space-y-4 border rounded-xl bg-white dark:bg-gray-900 shadow">
+  <h3 class="text-lg font-semibold text-gray-800 dark:text-white">📁 JSON Veri Aktarımı</h3>
+
+  <!-- Export -->
+  <div class="space-y-2">
+    <!-- <label for="userId" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kullanıcı ID</label>
+    <input type="number" [(ngModel)]="userId" id="userId"
+       class="w-32 px-3 py-1 border rounded dark:bg-gray-800 dark:text-white" />
+ -->
+    <button (click)="download()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Dışa Aktar (Export)
+    </button>
+  </div>
+
+  <!-- Import -->
+  <div class="space-y-2">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">JSON Dosyası</label>
+    <input type="file" (change)="onFileSelected($event)"
+           class="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
+                  file:rounded file:border-0 file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+    <button (click)="upload()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+      İçe Aktar (Import)
+    </button>
+  </div>
+
+  <div class="text-sm text-green-600 dark:text-green-400" *ngIf="message">{{ message }}</div>
+</div>

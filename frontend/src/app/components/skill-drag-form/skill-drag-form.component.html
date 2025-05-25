@@ -1,0 +1,44 @@
+<h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">🛠️ Yeteneklerini Seç</h2>
+
+<!-- Havuz -->
+<div class="mb-6 h-[200px] overflow-auto" >
+  <h3 class="font-medium mb-2">🎒 Yetenek Havuzu</h3>
+  <div class="border rounded-xl p-4 bg-gray-50 dark:bg-gray-800"
+       (dragover)="allowDrop($event)">
+    <div *ngFor="let skill of allSkills" draggable="true"
+         (dragstart)="onDragStart($event, skill)"
+         class="p-2 mb-2 rounded bg-white dark:bg-gray-700 shadow cursor-move hover:bg-blue-100 dark:hover:bg-blue-900 transition">
+      {{ skill.name }}
+    </div>
+  </div>
+</div>
+
+<!-- Seçilen Yetenekler -->
+<div>
+  <h3 class="font-medium mb-2">📋 Seçilenler</h3>
+  <div class="border rounded-xl p-4 bg-white dark:bg-gray-900 min-h-[150px]"
+       (drop)="onDrop($event)" (dragover)="allowDrop($event)">
+    <div *ngFor="let skill of selectedSkills" class="flex items-center gap-3 mb-2">
+      <!-- Skill adı için sabit genişlik verildi -->
+      <span class="text-gray-800 dark:text-white w-48 truncate">{{ skill.name }}</span>
+
+      <!-- Sayı inputu -->
+      <input type="number" min="1" max="5" [(ngModel)]="skill.level"
+             class="w-16 text-center py-1 rounded border dark:bg-gray-800 dark:text-white" />
+
+      <!-- Silme butonu -->
+      <button (click)="removeSkill(skill)" class="text-red-500 hover:text-red-700">✕</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Butonlar -->
+<div class="flex justify-end gap-4 mt-6">
+  <button (click)="cancelled.emit()" class="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-gray-600">
+    İptal
+  </button>
+  <button (click)="saveSkills()" class="px-4 py-2 rounded-xl bg-green-500 text-white hover:bg-green-600">
+    Kaydet
+  </button>
+</div>

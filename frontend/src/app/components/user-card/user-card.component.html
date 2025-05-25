@@ -14,6 +14,7 @@
       <button class="control-btn bg-gray-500 hover:bg-gray-600" (click)="toggleTheme()">
         🌓 Tema
       </button>
+      <app-json-upload [userId]="user.id" *ngIf="editable"></app-json-upload>
     </div>
 
     <!-- Ana Profil Kartı -->
@@ -31,6 +32,9 @@
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">{{ user.fullName }}</h1>
       <p class="text-lg text-purple-600 dark:text-purple-400 font-medium mb-4">{{ user.username }}</p>
       <p class="text-gray-600 dark:text-gray-300 leading-relaxed max-w-md mx-auto">{{ user.bio }}</p>
+      
+      
+
 
       <!-- Sosyal Medya Linkler -->
       <div class="social-links mt-8 space-y-4">
@@ -63,8 +67,7 @@
           (click)="openProfileModal()">
           ✏️ Profili Düzenle
         </button>
-        <button
-    class="edit-btn
+        <button class="edit-btn
       bg-gradient-to-r from-red-500 to-pink-600
       dark:from-red-700 dark:to-pink-800
       hover:from-red-600 hover:to-pink-700
@@ -72,16 +75,17 @@
       text-white
       font-semibold px-5 py-3 rounded-xl shadow-md hover:shadow-lg
       transform hover:-translate-y-1 transition-all duration-300 focus:outline-none
-      focus:ring-2 focus:ring-red-400 dark:focus:ring-red-300 focus:ring-opacity-50"
-    (click)="logout()"
-  >
-    🚪 Çıkış Yap
-  </button>
+      focus:ring-2 focus:ring-red-400 dark:focus:ring-red-300 focus:ring-opacity-50" (click)="logout()">
+          🚪 Çıkış Yap
+        </button>
       </div>
     </div>
 
     <!-- Projeler Bölümü -->
     <app-project-list [userId]="user.id" [editable]="editable"></app-project-list>
+
+    <app-skill-list [userId]="user.id" [editable]="editable"></app-skill-list>
+
   </div>
 </div>
 

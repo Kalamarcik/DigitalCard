@@ -21,11 +21,42 @@ export class CardsComponent implements OnInit {
     contactModalOpen = false;
     selectedUser!: User;
 
+
+    handleMouseMove(event: MouseEvent, card: HTMLElement): void {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = -(y - centerY) / 12;
+        const rotateY = (x - centerX) / 12;
+
+        const transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        card.style.transform = transform;
+        card.dataset['originalTransform'] = transform;
+    }
+
+    resetCardTransform(card: HTMLElement): void {
+        card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg)';
+        card.dataset['originalTransform'] = card.style.transform;
+    }
+
+    handleMouseDown(card: HTMLElement): void {
+        const current = card.dataset['originalTransform'] || '';
+        card.style.transform = `${current} scale(0.98)`;
+    }
+
+    handleMouseUp(card: HTMLElement): void {
+        card.style.transform = card.dataset['originalTransform'] || '';
+    }
+
+
     constructor(private userService: UserService,
         private http: HttpClient,
-        private router: Router) { 
-            
-        }
+        private router: Router) {
+
+    }
     ngOnInit(): void {
         this.loadUsers();
     }

@@ -1,0 +1,54 @@
+<div class="skills-container bg-gradient-to-br from-blue-100 to-purple-50  dark:from-gray-800 dark:to-gray-800  rounded-2xl shadow-lg p-6 mt-6">
+
+    <div *ngIf="editable" class="flex justify-end mb-1">
+        <button
+            class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-5 py-2 rounded-xl shadow-md hover:shadow-lg transition"
+            (click)="openAddSkillModal()">
+            ➕ Yetenek Ekle
+        </button>
+    </div>
+
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">🛠️ Yetenekler</h2>
+
+    <div *ngFor="let skill of skills" class="mb-4">
+        <div class="flex justify-between items-center">
+            <div class="flex flex-col">
+                <span class="text-lg font-medium text-gray-800 dark:text-gray-200">{{ skill.name }}</span>
+                <div class="stars flex gap-1">
+                    <ng-container *ngFor="let s of getStars(skill.level); let i = index">
+                        <i class="fa" [ngClass]="s ? 'fa-star text-yellow-400' : 'fa-star-o text-gray-400'"></i>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- İkonlar -->
+            <div *ngIf="editable" class="flex items-center gap-2 ml-4">
+                <button (click)="openEditSkillModal(skill)" class="text-blue-600 hover:text-blue-800 transition">
+                    <i class="fa fa-pencil"></i>
+                </button>
+                <button (click)="deleteSkill(skill.id)" class="text-red-600 hover:text-red-800 transition">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yetenek Ekle Modalı -->
+</div>
+
+<!-- Modal (Ekle/Düzenle) -->
+<div *ngIf="showSkillModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 relative h-[800px]">
+        <button class="absolute top-2 right-4 text-2xl text-gray-500 hover:text-gray-800 dark:hover:text-white"
+            (click)="closeSkillModal()">×</button>
+        <app-skill-form [userId]="userId" [existingSkill]="selectedSkill" (skillSaved)="onSkillSaved()"
+            (cancelled)="closeSkillModal()"></app-skill-form>
+
+
+    <app-skill-drag-form
+        [userId]="userId"
+        (skillsSaved)="onSkillsSaved($event)"
+        (cancelled)="closeSkillModal()"
+    ></app-skill-drag-form>
+    </div>
+</div>

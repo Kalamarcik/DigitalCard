@@ -1,0 +1,4 @@
+/* Opsiyonel stiller */
+div[draggable="true"] {
+  user-select: none;
+}

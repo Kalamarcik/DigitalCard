@@ -8,11 +8,15 @@ import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { QrModalComponent } from '../qr-modal/qr-modal.component';
 import { ThemeService } from '../../services/theme.service';
+import { SkillListComponent } from '../skill-list/skill-list.component';
+import { Skill } from '../../services/skill.service';
+import { SkillFormComponent } from '../skill-form/skill-form.component';
+import { JsonUploadComponent } from "../json-upload/json-upload.component";
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [CommonModule, ProjectListComponent, RouterModule, ProfileEditComponent,QrModalComponent ],
+  imports: [CommonModule, ProjectListComponent, RouterModule, ProfileEditComponent, QrModalComponent, SkillListComponent, JsonUploadComponent],
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.css']
 })
@@ -129,5 +133,6 @@ closeQrModal = () => {
       alert('Tarayıcınız paylaşım özelliğini desteklemiyor.');
     }
   }
+
 }
 

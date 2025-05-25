@@ -1,0 +1,30 @@
+<div class="flex flex-col md:flex-row gap-6 mt-8">
+
+  <!-- Yetenek Havuzu -->
+  <div class="w-full md:w-1/2">
+    <h3 class="font-bold text-lg mb-2 text-gray-700 dark:text-white">🎒 Yetenek Havuzu</h3>
+    <div class="border rounded-xl p-4 min-h-[200px] bg-gray-50 dark:bg-gray-800"
+         (drop)="onDrop($event, 'pool')" (dragover)="allowDrop($event)">
+      <div *ngFor="let skill of allSkills" draggable="true"
+           (dragstart)="onDragStart($event, skill)"
+           class="p-2 mb-2 rounded-xl bg-white dark:bg-gray-700 shadow cursor-move hover:bg-blue-100 dark:hover:bg-blue-900 transition">
+        {{ skill.name }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Karttaki Seçilen Yetenekler -->
+  <div class="w-full md:w-1/2">
+    <h3 class="font-bold text-lg mb-2 text-gray-700 dark:text-white">📝 Karttaki Yetenekler</h3>
+    <div class="border rounded-xl p-4 min-h-[200px] bg-white dark:bg-gray-900"
+         (drop)="onDrop($event, 'selected')" (dragover)="allowDrop($event)">
+      <div *ngFor="let skill of selectedSkills"
+           class="p-2 mb-2 rounded-xl bg-green-100 dark:bg-green-800 flex justify-between items-center shadow">
+        {{ skill.name }}
+        <button (click)="removeSkill(skill)"
+                class="text-red-600 hover:text-red-800 text-sm px-2">✕</button>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -5,11 +5,13 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { ProjectFormComponent } from "./components/project-form/project-form.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { ThemeService } from './services/theme.service';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [UserCardComponent, ProjectFormComponent, RouterModule, HeaderComponent],
+  imports: [UserCardComponent, ProjectFormComponent, RouterModule, HeaderComponent, FormsModule, HttpClientModule],
   template: `
             <app-header></app-header>
             <router-outlet></router-outlet>
