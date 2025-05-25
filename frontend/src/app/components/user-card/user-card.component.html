@@ -1,70 +1,114 @@
-<div class="user-card">
-  <div class="user-card-header">
-    <button class="contact-btn" (click)="openContactModal()">İletişim</button>
-    <button class="qr-btn" *ngIf="editable" (click)="showQr = true">📱 QR Kod</button>
-    <button class="theme-toggle" (click)="toggleTheme()">🌓 Tema Değiştir</button>
+<!-- Ana Kart Container -->
+<div
+  class="digital-card min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+  <div class="max-w-2xl mx-auto">
 
-  </div>
+    <!-- Üst Kontrol Butonları -->
+    <div class="flex justify-end gap-2 mb-6">
+      <button class="control-btn bg-indigo-500 hover:bg-indigo-600" (click)="openContactModal()">
+        📧 İletişim
+      </button>
+      <button class="control-btn bg-blue-500 hover:bg-blue-600" *ngIf="editable" (click)="showQr = true">
+        📱 QR Kod
+      </button>
+      <button class="control-btn bg-gray-500 hover:bg-gray-600" (click)="toggleTheme()">
+        🌓 Tema
+      </button>
+    </div>
 
-  <img [src]="user.avatarUrl" alt="Avatar" class="avatar" />
-  <h2>{{ user.fullName }}</h2>
-  <p class="username">{{ user.username }}</p>
-  <p class="bio">{{ user.bio }}</p>
+    <!-- Ana Profil Kartı -->
+    <div
+      class="profile-card bg-gradient-to-br from-blue-100 to-purple-50  dark:from-gray-800 dark:to-gray-800 rounded-3xl shadow-xl p-8 mb-8 text-center transform hover:scale-105 transition-all duration-300">
 
-  <div class="social-links">
-    <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank">
-      <i class="fa fa-external-link-alt"></i> {{ sm.platform }}
-    </a>
-  </div>
+      <!-- Profil Fotoğrafı -->
+      <div class="avatar-container mb-6">
+        <img [src]="user.avatarUrl" alt="Avatar"
+          class="avatar w-32 h-32 rounded-full mx-auto shadow-lg object-cover border-4 border-white dark:border-gray-700" />
+        <div class="avatar-glow"></div>
+      </div>
 
-  <div class="action-links" *ngIf="editable">
-    <button (click)="openProfileModal()">Profili Düzenle</button>
-    <button (click)="logout()">Çıkış Yap</button>
+      <!-- Kullanıcı Bilgileri -->
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">{{ user.fullName }}</h1>
+      <p class="text-lg text-purple-600 dark:text-purple-400 font-medium mb-4">{{ user.username }}</p>
+      <p class="text-gray-600 dark:text-gray-300 leading-relaxed max-w-md mx-auto">{{ user.bio }}</p>
+
+      <!-- Sosyal Medya Linkler -->
+      <div class="social-links mt-8 space-y-4">
+        <a *ngFor="let sm of user.socialMediaList" [href]="sm.url" target="_blank" class="social-link-btn block w-full max-w-sm mx-auto
+      bg-gradient-to-r from-gray-200 to-blue-400
+      dark:from-gray-700 dark:to-blue-800
+      hover:from-blue-500 hover:to-blue-600
+      dark:hover:from-blue-700 dark:hover:to-blue-900
+      text-gray-900 dark:text-white
+      font-medium py-3 px-6 rounded-xl shadow-md hover:shadow-lg
+      transform hover:-translate-y-1 transition-all duration-300
+      focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-300 focus:ring-opacity-50">
+          <i class="fa fa-external-link-alt mr-2"></i>
+          {{ sm.platform }}
+        </a>
+      </div>
+
+
+      <!-- Düzenleme Butonları (Eğer editable ise) -->
+      <div class="edit-controls mt-8 space-x-3" *ngIf="editable">
+        <button class="edit-btn
+      bg-gradient-to-r from-yellow-400 to-yellow-500
+      dark:from-yellow-600 dark:to-yellow-700
+      hover:from-yellow-500 hover:to-yellow-600
+      dark:hover:from-yellow-700 dark:hover:to-yellow-800
+      text-gray-900 dark:text-white
+      font-semibold px-5 py-3 rounded-xl shadow-md hover:shadow-lg
+      transform hover:-translate-y-1 transition-all duration-300 focus:outline-none
+      focus:ring-2 focus:ring-yellow-400 dark:focus:ring-yellow-300 focus:ring-opacity-50"
+          (click)="openProfileModal()">
+          ✏️ Profili Düzenle
+        </button>
+        <button
+    class="edit-btn
+      bg-gradient-to-r from-red-500 to-pink-600
+      dark:from-red-700 dark:to-pink-800
+      hover:from-red-600 hover:to-pink-700
+      dark:hover:from-red-800 dark:hover:to-pink-900
+      text-white
+      font-semibold px-5 py-3 rounded-xl shadow-md hover:shadow-lg
+      transform hover:-translate-y-1 transition-all duration-300 focus:outline-none
+      focus:ring-2 focus:ring-red-400 dark:focus:ring-red-300 focus:ring-opacity-50"
+    (click)="logout()"
+  >
+    🚪 Çıkış Yap
+  </button>
+      </div>
+    </div>
+
+    <!-- Projeler Bölümü -->
+    <app-project-list [userId]="user.id" [editable]="editable"></app-project-list>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal-backdrop" *ngIf="showProfileModal && editable">
-  <div class="modal-content">
-    <button class="close-btn" (click)="closeProfileModal()">X</button>
+<!-- Profil Düzenleme Modal -->
+<div class="modal-overlay" *ngIf="showProfileModal && editable">
+  <div class="modal-content bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-2xl relative">
+    <button class="modal-close" (click)="closeProfileModal()">×</button>
     <app-profile-edit></app-profile-edit>
   </div>
 </div>
 
-<app-project-list [userId]="user.id" [editable]="editable"></app-project-list>
-
-<!-- İletişim Modalı -->
-<div class="modal-backdrop" *ngIf="contactModalOpen">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>Bana Ulaş</h2>
-      <button class="close-btn" (click)="closeContactModal()">×</button>
+<!-- İletişim Modal -->
+<div class="modal-overlay" *ngIf="contactModalOpen">
+  <div class="modal-content bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md relative text-center">
+    <button class="modal-close" (click)="closeContactModal()">×</button>
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">📧 Bana Ulaş</h2>
+    <div class="contact-info">
+      <a [href]="'mailto:' + user.email"
+        class="email-link inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white font-medium py-3 px-8 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+        {{ user.email }}
+      </a>
     </div>
-    <p style="text-align: center;">
-      <a [href]="'mailto:' + user.email">{{ user.email }}</a>
-    </p>
   </div>
 </div>
 
-
-<div class="qr-modal" *ngIf="showQr">
-
-  <app-qr-modal 
-  [showQr]="showQr" 
-  [qrCodeUrl]="qrCodeUrl" 
-  [close]="closeQrModal">
-</app-qr-modal>
-
-  <!-- div class="qr-container">
-    <button class="qr-close-btn" (click)="showQr = false">×</button>
-    
-    <h3>Profil QR Kodu</h3>
-    <img #qrImg [src]="qrCodeUrl" alt="QR Kod" />
-
-    <div class="qr-actions">
-      <button (click)="downloadQr(qrImg)">İndir</button>
-      <button (click)="shareQr()">Paylaş</button>
-    </div>
-  </div> -->
+<!-- QR Kod Modal -->
+<div class="modal-overlay" *ngIf="showQr">
+  <app-qr-modal [showQr]="showQr" [qrCodeUrl]="qrCodeUrl" [close]="closeQrModal">
+  </app-qr-modal>
 </div>
-

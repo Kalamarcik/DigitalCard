@@ -7,10 +7,13 @@ export class ThemeService {
   private isDark = false;
 
   toggleTheme(): void {
-    this.isDark = !this.isDark;
-    document.body.classList.toggle('dark-theme', this.isDark);
-    localStorage.setItem('preferredTheme', this.isDark ? 'dark' : 'light');
-  }
+  this.isDark = !this.isDark;
+
+  const html = document.documentElement; // <html> etiketi
+  html.classList.toggle('dark', this.isDark);
+
+  localStorage.setItem('preferredTheme', this.isDark ? 'dark' : 'light');
+}
 
   initializeTheme(): void {
     const saved = localStorage.getItem('preferredTheme');

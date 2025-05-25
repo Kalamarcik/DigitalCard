@@ -31,6 +31,10 @@
 
 .social-links {
   margin-bottom: 12px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .social-links a {
@@ -76,7 +80,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +96,7 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  
+
 }
 
 .close-btn {
@@ -113,10 +117,12 @@
 }
 
 .contact-btn {
-  position: absolute; /* 🔴 konumlandırma */
+  position: absolute;
+  /* 🔴 konumlandırma */
   top: 8px;
   right: 8px;
-  width: 10%; /* 🔴 genişlik ayarı */
+  width: 10%;
+  /* 🔴 genişlik ayarı */
   background-color: #0077cc;
   color: #fff;
   border: none;
@@ -138,7 +144,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,7 +157,7 @@
   border-radius: 8px;
   width: 360px;
   max-width: 90%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
 }
 
@@ -199,7 +205,7 @@
   padding: 24px;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .qr-close-btn {
@@ -239,5 +245,113 @@
   background-color: #005fa3;
 }
 
+.digital-card {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
+.control-btn {
+  @apply text-sm px-4 py-2 text-white rounded-xl font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300;
+}
 
+/*
+.profile-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dark .profile-card {
+  background: linear-gradient(135deg, rgba(31,41,55,0.95) 0%, rgba(31,41,55,0.9) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+}*/
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar {
+  z-index: 2;
+  position: relative;
+}
+
+.avatar-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+  border-radius: 50%;
+  opacity: 0.3;
+  z-index: 1;
+  animation: pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/*
+  .social-link-btn {
+  text-decoration: none !important;
+  border: none;
+  cursor: pointer;
+  
+  
+  } */
+
+.dark .social-link-btn {
+  @apply shadow-inner;
+}
+
+.edit-btn {
+  @apply text-sm px-6 py-2 text-white rounded-xl font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  @apply absolute top-4 right-4 text-3xl font-bold text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200;
+}
+
+.email-link {
+  text-decoration: none !important;
+}
+
+.contact-info {
+  @apply space-y-4;
+}
+
+/* Responsive tasarım */
+@media (max-width: 640px) {
+  .profile-card {
+    @apply p-6;
+  }
+
+  .avatar {
+    @apply w-24 h-24;
+  }
+
+  .avatar-glow {
+    width: 100px;
+    height: 100px;
+  }
+
+  .social-link-btn {
+    @apply py-4 text-base;
+  }
+}

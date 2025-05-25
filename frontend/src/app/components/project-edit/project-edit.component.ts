@@ -13,7 +13,7 @@ import { ProjectService, Project } from '../../services/project.service';
 })
 export class ProjectEditComponent implements OnInit {
 onCancel() {
-throw new Error('Method not implemented.');
+ this.onClose();
 }
   @Input() project!: Project;
   @Input() onClose!: () => void;

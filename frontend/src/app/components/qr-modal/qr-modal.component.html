@@ -1,13 +1,39 @@
-<div class="qr-modal" *ngIf="showQr">
-  <div class="qr-container">
-    <button class="qr-close-btn" (click)="close()">×</button>
+<div *ngIf="showQr" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-sm relative text-center space-y-4">
+    <!-- Kapatma Butonu -->
+    <button
+      (click)="close()"
+      class="absolute top-2 right-2 text-2xl text-gray-600 hover:text-red-500"
+      aria-label="Kapat"
+    >
+      ×
+    </button>
 
-    <h3>Profil QR Kodu</h3>
-    <img #qrImg [src]="qrCodeUrl" alt="QR Kod" />
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Profil QR Kodu</h3>
 
-    <div class="qr-actions">
-      <button (click)="downloadQr(qrImg)">İndir</button>
-      <button *ngIf="isDesktop" (click)="shareQr()">Paylaş</button>
+    <img
+      #qrImg
+      [src]="qrCodeUrl"
+      alt="QR Kod"
+      class="mx-auto w-48 h-48 object-contain border border-gray-200 dark:border-gray-700 rounded"
+    />
+
+    <!-- Butonlar -->
+    <div class="flex justify-center gap-4">
+      <button
+        (click)="downloadQr(qrImg)"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        İndir
+      </button>
+
+      <button
+        *ngIf="isDesktop"
+        (click)="shareQr()"
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        Paylaş
+      </button>
     </div>
   </div>
 </div>

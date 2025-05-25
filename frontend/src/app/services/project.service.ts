@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Project {
+demoUrl: any;
+githubUrl: any;
   id?: number;
   title: string;
   description: string;

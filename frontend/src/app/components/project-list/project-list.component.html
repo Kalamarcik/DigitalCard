@@ -1,49 +1,234 @@
-<div class="projects-section">
- <div class="projects-header">
-  <h2>Projeler</h2>
-  <div class="header-actions" *ngIf="editable">
-    <button class="add-btn" (click)="openAddModal()">＋</button>
-  </div>
-</div>
+<!-- Projeler Bölümü -->
+<div class="projects-section bg-gradient-to-br from-blue-100 to-blue-50 dark:from-gray-800 dark:to-gray-800 w-full py-12 px-4 sm:px-8 border border-gray-300 dark:border-gray-800">
 
-  <div class="project-list">
-  <app-project-card
-    *ngFor="let project of projects"
-    [project]="project"
-    (edit)="openEditModal2(project)" 
-    [editable]="editable"
-
-  ></app-project-card>
-</div>
-
-</div>
-
-<!-- Ekleme Modalı -->
-<div class="modal-backdrop" *ngIf="showAddModal && editable">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>Yeni Proje</h2>
-      <button class="close-btn" (click)="closeAddModal()">×</button>
+  <!-- Projeler Başlık Kartı -->
+  <div class="section-header bg-gradient-to-br from-purple-50 to-blue-100  dark:from-gray-800 dark:to-gray-800 rounded-2xl shadow-xl p-6 mb-10 transition-all duration-300">
+    <div class="flex justify-between items-center flex-wrap gap-4">
+      <div class="header-content">
+        <h2 class="text-3xl font-extrabold  text-gray-800 dark:text-white mb-1">🚀 Projelerim</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm">Geliştirdiğim projeler ve çalışmalar</p>
+      </div>
+      <div *ngIf="editable" class="add-project-btn">
+        <button
+            class="bg-gradient-to-br from-purple-200 to-blue-100 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+            (click)="openAddModal()"
+            title="Yeni Proje Ekle"
+          >
+            <span class="text-lg">＋</span>
+            <span class="hidden sm:inline">Yeni Proje</span>
+          </button>
+      </div>
     </div>
-    <app-project-form
-      [userId]="userId"
-      (projectUploaded)="onProjectUploaded()"
-    ></app-project-form>
+  </div>
+
+  <!-- Proje Kartları Grid -->
+  <div class="projects-grid grid grid-cols-1 gap-6">
+    <app-project-card
+      *ngFor="let project of projects"
+      [project]="project"
+      [editable]="editable"
+      (edit)="openEditModal2(project)"
+      class="project-card-wrapper text-gray-600 transform hover:scale-[1.03] transition-all duration-300"
+    ></app-project-card>
+  </div>
+
+  <!-- Proje yoksa mesaj -->
+  <div *ngIf="projects.length === 0" class="no-projects bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 mt-10 text-center transition-all duration-300">
+    <div class="no-projects-content">
+      <div class="text-6xl mb-4">📂</div>
+      <h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Henüz proje yok</h3>
+      <p class="text-gray-500 dark:text-gray-400 mb-6">İlk projenizi ekleyerek başlayın!</p>
+      <button 
+        *ngIf="editable"
+        class="get-started-btn bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        (click)="openAddModal()">
+        🚀 İlk Projeyi Ekle
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Yeni Proje Ekleme Modal -->
+<div class="modal-overlay" *ngIf="showAddModal && editable">
+  <div class="modal-content bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl relative">
+    <div class="modal-header p-6 border-b border-gray-200 dark:border-gray-700">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">✨ Yeni Proje Ekle</h2>
+          <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Portföyünüze yeni bir proje ekleyin</p>
+        </div>
+        <button class="modal-close text-2xl text-gray-500 dark:text-gray-300 hover:text-red-500" (click)="closeAddModal()">×</button>
+      </div>
+    </div>
+    <div class="modal-body p-6">
+      <app-project-form
+        [userId]="userId"
+        (projectUploaded)="onProjectUploaded()"
+      ></app-project-form>
+    </div>
   </div>
 </div>
 
-<!-- Düzenleme Modalı -->
-<div class="modal-backdrop" *ngIf="editingProject">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>Projeyi Düzenle</h2>
-      <button class="close-btn" (click)="closeEditModal2()">×</button>
+<!-- Proje Düzenleme Modal -->
+<div class="modal-overlay" *ngIf="editingProject">
+  <div class="modal-content bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl relative">
+    <div class="modal-header p-6 border-b border-gray-200 dark:border-gray-700">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">🔧 Projeyi Düzenle</h2>
+          <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Proje bilgilerini güncelleyin</p>
+        </div>
+        <button class="modal-close text-2xl text-gray-500 dark:text-gray-300 hover:text-red-500" (click)="closeEditModal2()">×</button>
+      </div>
     </div>
-    <app-project-edit
-      [project]="editingProject"
-      [onClose]="closeEditModal2.bind(this)"
-      [onUpdate]="onProjectUpdated2.bind(this)"
-    ></app-project-edit>
+    <div class="modal-body p-6">
+      <app-project-edit
+        [project]="editingProject"
+        [onClose]="closeEditModal2.bind(this)"
+        [onUpdate]="onProjectUpdated2.bind(this)"
+      ></app-project-edit>
+    </div>
   </div>
+</div>
+
+
+<style>
+
+  /*
+.projects-section {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}*/
+
+
+/*
+.section-header {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dark .section-header {
+  background: linear-gradient(135deg, rgba(31,41,55,0.95) 0%, rgba(31,41,55,0.9) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+}*/
+
+.dark .projects-section {
+    border: 1px solid #171b1e;
+}
+
+.add-btn {
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+/*
+.projects-grid {
+  min-height: 200px;
+}*/
+
+.project-card-wrapper {
+  height: fit-content;
+}
+
+.no-projects {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dark .no-projects {
+  background: linear-gradient(135deg, rgba(31,41,55,0.95) 0%, rgba(31,41,55,0.9) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.get-started-btn {
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm p-4;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  @apply text-3xl font-bold text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200;
+}
+
+/*
+.modal-header {
+  background: linear-gradient(135deg, rgba(249,250,251,0.8) 0%, rgba(243,244,246,0.8) 100%);
+}
+
+.dark .modal-header {
+  background: linear-gradient(135deg, rgba(17,24,39,0.8) 0%, rgba(31,41,55,0.8) 100%);
+}*/
+
+/* Responsive tasarım */
+
+
+@media (max-width: 768px) {
+  .section-header {
+    @apply p-4;
+  }
   
-</div>
+  .projects-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  
+  .no-projects {
+    @apply p-8;
+  }
+  
+  .modal-content {
+    @apply mx-4;
+  }
+}
+
+@media (max-width: 640px) {
+  .add-btn {
+    @apply px-4 py-2 text-sm;
+  }
+  
+  .add-btn span:not(.text-lg) {
+    @apply hidden;
+  }
+}
+
+/* Kartlar için hover efektleri */
+.project-card-wrapper:hover {
+  z-index: 10;
+}
+
+/* Modal animasyonları */
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
