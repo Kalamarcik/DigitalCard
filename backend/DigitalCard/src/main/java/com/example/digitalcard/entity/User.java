@@ -35,6 +35,8 @@ public class User {
 
     private String lastLoginIp;
 
+    private Integer guestCount = 0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SocialMedia> socialMediaList;
 
@@ -177,5 +179,13 @@ public class User {
 
     public void setLastLoginIp(String lastLoginIp) {
         this.lastLoginIp = lastLoginIp;
+    }
+
+    public Integer getGuestCount() {
+        return guestCount;
+    }
+
+    public void setGuestCount(Integer guestCount) {
+        this.guestCount = guestCount;
     }
 }

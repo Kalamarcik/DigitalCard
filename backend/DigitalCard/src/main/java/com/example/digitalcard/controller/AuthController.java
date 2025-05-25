@@ -1,5 +1,6 @@
 package com.example.digitalcard.controller;
 
+import com.example.digitalcard.config.JwtUtil;
 import com.example.digitalcard.dto.LoginRequest;
 import com.example.digitalcard.dto.LoginResponseDto;
 import com.example.digitalcard.dto.RegisterRequest;
@@ -10,17 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserService userService;
+    private final UserController userController;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, UserController userController, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.userController = userController;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
@@ -56,33 +61,19 @@ public class AuthController {
             return ResponseEntity.status(401).body("Geçersiz e-posta veya şifre.");
         }
 
-        // IP adresini al
-        String ip = getClientIpAddress(httpReq);
-
-        System.out.println("Giriş yapan IP: " + ip + " - Tarih: " + LocalDateTime.now());
-
         User user = optionalUser.get();
-        user.setLastLoginIp(ip);
         user.setLastLogin(LocalDateTime.now());
         user.setLoginCount(user.getLoginCount() + 1);
-
         userService.saveUser(user);
 
-        // DTO kullanarak response oluştur
-        LoginResponseDto response = new LoginResponseDto(
-                user.getId(),
-                user.getUsername(),
-                user.getFullName(),
-                user.getBio(),
-                user.getEmail(),
-                user.getAvatarUrl(),
-                user.getCreatedAt(),
-                user.getLastLogin(),
-                user.getLoginCount()
-        );
+        String token = jwtUtil.generateToken(user);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of(
+                "token", token,
+                "user", userController.mapToDto(user)
+        ));
     }
+
 
     private String getClientIpAddress(HttpServletRequest request) {
         // Proxy headers'ları kontrol et

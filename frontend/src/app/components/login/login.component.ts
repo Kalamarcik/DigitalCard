@@ -30,7 +30,8 @@ export class LoginComponent {
     if (this.form.valid) {
       this.http.post('http://192.168.1.69:8080/api/auth/login', this.form.value).subscribe({
         next: (res: any) => {
-          localStorage.setItem('currentUser', JSON.stringify(res));
+          localStorage.setItem('token', JSON.stringify(res?.token));
+          localStorage.setItem('currentUser', JSON.stringify(res?.user));
           this.router.navigate(['/profile']);
         },
         error: () => {

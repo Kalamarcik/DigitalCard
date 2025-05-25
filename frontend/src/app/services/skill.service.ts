@@ -1,6 +1,6 @@
 // src/app/services/skill.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Skill {
@@ -18,23 +18,38 @@ export class SkillService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = JSON.parse(localStorage.getItem('token') || '{}');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getSkillsByUserId(userId: number): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.apiUrl}/user/${userId}`);
+    return this.http.get<Skill[]>(`${this.apiUrl}/user/${userId}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   addSkill(skill: Skill): Observable<Skill> {
-    return this.http.post<Skill>(this.apiUrl, skill);
+    return this.http.post<Skill>(this.apiUrl, skill, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   updateSkill(id: number, skill: Skill): Observable<Skill> {
-    return this.http.put<Skill>(`${this.apiUrl}/${id}`, skill);
+    return this.http.put<Skill>(`${this.apiUrl}/${id}`, skill, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   deleteSkill(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   saveSkillList(skills: { name: string; level: number; userId: number }[]): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/bulk`, skills);
+    return this.http.post<void>(`${this.apiUrl}/bulk`, skills, {
+      headers: this.getAuthHeaders()
+    });
   }
 }

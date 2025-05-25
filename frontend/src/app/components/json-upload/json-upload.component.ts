@@ -28,13 +28,16 @@ export class JsonUploadComponent {
   }
 
   upload(): void {
-    if (!this.selectedFile) return;
+  if (!this.selectedFile) return;
 
-    this.jsonService.importUserData(this.selectedFile).subscribe({
-      next: (msg) => this.message = msg,
-      error: () => this.message = 'Yükleme başarısız.'
-    });
-  }
+  this.jsonService.importUserData(this.selectedFile).subscribe({
+    next: (msg) => {
+      this.message = msg;
+      setTimeout(() => window.location.reload(), 1000); // 1 saniye sonra sayfayı yeniler
+    },
+    error: () => this.message = 'Yükleme başarısız.'
+  });
+}
 
   download(): void {
     if (this.userId > 0) {

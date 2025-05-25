@@ -51,7 +51,6 @@ export class CardsComponent implements OnInit {
         card.style.transform = card.dataset['originalTransform'] || '';
     }
 
-
     constructor(private userService: UserService,
         private http: HttpClient,
         private router: Router) {

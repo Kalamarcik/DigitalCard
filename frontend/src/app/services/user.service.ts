@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -24,13 +24,20 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private API_URL = 'http://192.168.1.69:8080/api/users'; // spring ip
+  private API_URL = 'http://192.168.1.69:8080/api/users';
   currentUser!: User;
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = JSON.parse(localStorage.getItem('token') || '{}');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.API_URL}/${id}`);
+    return this.http.get<User>(`${this.API_URL}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   setCurrentUser(user: User) {
@@ -42,6 +49,8 @@ export class UserService {
   }
 
   getUserByUsername(username: string): Observable<User> {
-  return this.http.get<User>(`${this.API_URL}/by-username/${username}`);
-}
+    return this.http.get<User>(`${this.API_URL}/by-username/${username}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

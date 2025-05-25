@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://192.168.1.69:4200") // Angular'dan gelen isteklere izin ver
 public class UserController {
 
     private final UserService userService;
@@ -61,10 +60,18 @@ public class UserController {
 
     @GetMapping("/by-username/{username}")
     public ResponseEntity<UserDto> getUserDtoByUsername(@PathVariable String username) {
-        User user = userService.getByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.getByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 👇 Guest sayısını artır
+        Integer oldCount = user.getGuestCount() != null ? user.getGuestCount() : 0;
+        user.setGuestCount(oldCount + 1);
+        userService.saveUser(user); // guestCount artışını kaydet
+
         UserDto dto = mapToDto(user);
         return ResponseEntity.ok(dto);
     }
+
 
     @GetMapping("/cards")
     public ResponseEntity<List<UserDto>> getAll(
@@ -113,7 +120,7 @@ public class UserController {
 
 
 
-    private UserDto mapToDto(User user) {
+    public UserDto mapToDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());

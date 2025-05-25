@@ -88,6 +88,7 @@ public class JsonController {
 
             if (incomingData.getProjects() != null) {
                 incomingData.getProjects().forEach(project -> {
+                    project.setId(null);
                     project.setUser(existingUser);
                     existingUser.getProjects().add(project);
                 });
@@ -95,6 +96,7 @@ public class JsonController {
 
             if (incomingData.getSkills() != null) {
                 incomingData.getSkills().forEach(skill -> {
+                    skill.setId(null);
                     skill.setUser(existingUser);
                     existingUser.getSkills().add(skill);
                 });
@@ -102,6 +104,7 @@ public class JsonController {
 
             if (incomingData.getSocialMediaList() != null) {
                 incomingData.getSocialMediaList().forEach(sm -> {
+                    sm.setId(null);
                     sm.setUser(existingUser);
                     existingUser.getSocialMediaList().add(sm);
                 });
@@ -120,13 +123,16 @@ public class JsonController {
 
 
     public Long getCurrentUserId() {
-        // Örneğin, Username içinden User bulunuyorsa
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        return userRepository.findByUsername(username)
-                .map(User::getId)
-                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+        Object principal = auth.getPrincipal();
+
+        if (principal instanceof User user) {
+            return user.getId();
+        }
+
+        throw new RuntimeException("Oturum açmış kullanıcı bulunamadı.");
     }
+
 
 
 }
