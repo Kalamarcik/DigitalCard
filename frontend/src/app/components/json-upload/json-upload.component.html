@@ -1,4 +1,4 @@
-<div class="p-4 space-y-4 border rounded-xl bg-white dark:bg-gray-900 shadow">
+<div class="p-4 bg-gradient-to-br from-blue-100 to-purple-50  dark:from-gray-800 dark:to-gray-800 space-y-4 border rounded-xl bg-white dark:bg-gray-900 shadow-lg">
   <h3 class="text-lg font-semibold text-gray-800 dark:text-white">📁 JSON Veri Aktarımı</h3>
 
   <!-- Export -->
@@ -7,7 +7,7 @@
     <input type="number" [(ngModel)]="userId" id="userId"
        class="w-32 px-3 py-1 border rounded dark:bg-gray-800 dark:text-white" />
  -->
-    <button (click)="download()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+    <button (click)="download()" class="px-4 py-2 bg-gradient-to-br from-blue-400 to-purple-100 text-white rounded hover:bg-blue-700">
       Dışa Aktar (Export)
     </button>
   </div>
@@ -18,8 +18,8 @@
     <input type="file" (change)="onFileSelected($event)"
            class="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
                   file:rounded file:border-0 file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
-    <button (click)="upload()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                  file:bg-red-50 file:text-red-700 hover:file:bg-blue-100" />
+    <button (click)="upload()" class="px-4 py-2 bg-gradient-to-br from-purple-100 to-blue-400  text-white rounded hover:bg-green-700">
       İçe Aktar (Import)
     </button>
   </div>

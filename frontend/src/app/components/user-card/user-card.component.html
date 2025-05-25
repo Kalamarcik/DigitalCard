@@ -14,7 +14,7 @@
       <button class="control-btn bg-gray-500 hover:bg-gray-600" (click)="toggleTheme()">
         🌓 Tema
       </button>
-      <app-json-upload [userId]="user.id" *ngIf="editable"></app-json-upload>
+      
     </div>
 
     <!-- Ana Profil Kartı -->
@@ -85,6 +85,8 @@
     <app-project-list [userId]="user.id" [editable]="editable"></app-project-list>
 
     <app-skill-list [userId]="user.id" [editable]="editable"></app-skill-list>
+
+    <app-json-upload [userId]="user.id" *ngIf="editable"></app-json-upload>
 
   </div>
 </div>
