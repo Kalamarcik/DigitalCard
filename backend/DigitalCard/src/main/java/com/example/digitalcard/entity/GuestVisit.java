@@ -1,5 +1,6 @@
 package com.example.digitalcard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class GuestVisit {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 

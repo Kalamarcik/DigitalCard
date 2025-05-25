@@ -53,6 +53,7 @@ public class User {
     private List<Skill> skills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<GuestVisit> guestVisits = new ArrayList<>();
 
 

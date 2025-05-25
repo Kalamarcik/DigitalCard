@@ -121,6 +121,12 @@ public class JsonController {
         }
     }
 
+    @GetMapping("/debug/{userId}")
+    public String debugUser(@PathVariable Long userId) throws Exception {
+        User user = userRepository.findById(userId).orElseThrow();
+        return objectMapper.writeValueAsString(user); // burada stacktrace alırsın
+    }
+
 
     public Long getCurrentUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
