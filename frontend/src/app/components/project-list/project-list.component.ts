@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ProjectFormComponent } from '../project-form/project-form.component';
 import { ProjectCardComponent } from '../project-card/project-card.component';
 import { ProjectEditComponent } from '../project-edit/project-edit.component';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-project-list',
@@ -24,6 +25,12 @@ export class ProjectListComponent implements OnInit {
   selectedProject: Project | null = null;
 
   constructor(private projectService: ProjectService) { }
+
+    private getAuthHeaders(): HttpHeaders {
+    const token = JSON.parse(localStorage.getItem('token') || '{}');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
 
   ngOnInit(): void {
     this.loadProjects();
