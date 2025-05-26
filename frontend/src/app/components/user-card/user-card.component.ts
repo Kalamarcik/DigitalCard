@@ -13,15 +13,27 @@ import { Skill } from '../../services/skill.service';
 import { SkillFormComponent } from '../skill-form/skill-form.component';
 import { JsonUploadComponent } from "../json-upload/json-upload.component";
 import { HttpHeaders } from '@angular/common/http';
+import { faGithub, faLinkedin, faTwitter, faInstagram, faBehance, faDribbble,faMedium, faStackOverflow, IconDefinition, } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [CommonModule, ProjectListComponent, RouterModule, ProfileEditComponent, QrModalComponent, SkillListComponent, JsonUploadComponent],
+  imports: [CommonModule, ProjectListComponent, RouterModule, ProfileEditComponent, QrModalComponent, SkillListComponent, JsonUploadComponent,FontAwesomeModule],
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.css']
 })
 export class UserCardComponent implements OnInit {
+
+  icons: { [key: string]: IconDefinition } = {
+  GitHub: faGithub,
+  LinkedIn: faLinkedin,
+  Twitter: faTwitter,
+  Instagram: faInstagram,
+   Medium: faMedium,
+  StackOverflow: faStackOverflow
+};
 
   user!: User;
   // Modal kontrol değişkenleri
