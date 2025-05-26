@@ -1,6 +1,6 @@
 # 📇 Dijital Kart Uygulaması
 
-Bu proje, kullanıcıların dijital profil kartlarını oluşturabildiği, sosyal medya bağlantıları ekleyebildiği, tema seçimi yapabildiği ve QR kod ile profil paylaşımı gerçekleştirebildiği tam yığınlı bir web uygulamasıdır.
+Bu proje, kullanıcıların dijital profil kartlarını oluşturabildiği, sosyal medya bağlantıları ekleyebildiği, tema seçimi yapabildiği ve QR kod ile profil paylaşımı gerçekleştirebildiği full-stack bir web uygulamasıdır.
 
 ---
 
