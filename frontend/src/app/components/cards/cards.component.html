@@ -1,16 +1,24 @@
+<div class="min-h-screen bg-gray-200 dark:bg-gray-900">
 <div class="cards-container max-w-6xl mx-auto px-4 py-6 space-y-6">
 
-  <!-- Arama Kutusu -->
-  <input
-    type="text"
-    [(ngModel)]="searchQuery"
-    (input)="searchUsers()"
-    placeholder="Kullanıcı ara..."
-    class="w-full md:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-indigo-500 focus:outline-none shadow-sm transition"
-  />
+ <div class="flex justify-center mb-8">
+  <div class="relative w-full md:w-1/2">
+    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 dark:text-gray-500">
+      <i class="fa fa-search"></i>
+    </span>
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="searchUsers()"
+      placeholder="Kullanıcı ara..."
+      class="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500 transition"
+    />
+  </div>
+</div>
+
 
   <!-- Kullanıcı Kartları -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
         *ngFor="let user of users"
         #card
@@ -19,12 +27,12 @@
         (mousedown)="handleMouseDown(card)"
         (mouseup)="handleMouseUp(card)"
         (click)="goToProfile(user.username)"
-        class="cursor-pointer group relative bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-md transition-transform duration-200 ease-out"
+        class="cursor-pointer group relative bg-blue-50 dark:bg-gray-800 p-6 rounded-2xl shadow-md transition-transform duration-200 ease-out"
     >
 
     
       <!-- Kart Header -->
-      <div class="flex justify-end">
+      <div class="flex  justify-end">
         <button
           class="text-sm px-3 py-1 bg-indigo-500 text-white rounded hover:bg-indigo-600"
           (click)="openContactModal(user); $event.stopPropagation()"
@@ -72,4 +80,5 @@
       </p>
     </div>
   </div>
+</div>
 </div>
