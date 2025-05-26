@@ -8,7 +8,7 @@ Bu proje, kullanıcıların dijital profil kartlarını oluşturabildiği, sosya
 
 ### Backend (Spring Boot)
 - Spring Boot
-- Spring Security + JWT (kimlik doğrulama)
+- JWT 
 - PostgreSQL
 - JPA / Hibernate
 - RESTful API
