@@ -27,6 +27,7 @@ public class UserController {
 
 
 
+
     public UserController(UserService userService,
                           QrCodeService qrCodeService,
                           GuestVisitRepository guestVisitRepository) {

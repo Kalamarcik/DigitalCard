@@ -8,6 +8,7 @@ import com.example.digitalcard.entity.User;
 import com.example.digitalcard.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -21,11 +22,14 @@ public class AuthController {
     private final UserService userService;
     private final UserController userController;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, UserController userController, JwtUtil jwtUtil) {
+
+    public AuthController(UserService userService, UserController userController, JwtUtil jwtUtil , PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userController = userController;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -38,12 +42,15 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Bu kullanıcı adı alınmış.");
         }
 
+        // 🔐 Şifreyi hashle
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         User user = new User(
                 request.getUsername(),
                 request.getFullName(),
                 "", // bio
                 request.getEmail(),
-                request.getPassword(),
+                encodedPassword, // ✔ HASH'LENMİŞ ŞİFRE
                 "" // avatarUrl
         );
 
@@ -51,10 +58,12 @@ public class AuthController {
         return ResponseEntity.ok("Kayıt başarılı");
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpReq) {
         Optional<User> optionalUser = userService.getAllUsers().stream()
-                .filter(u -> u.getEmail().equals(request.getEmail()) && u.getPassword().equals(request.getPassword()))
+                .filter(u -> u.getEmail().equals(request.getEmail()))
+                .filter(u -> passwordEncoder.matches(request.getPassword(), u.getPassword()))
                 .findFirst();
 
         if (optionalUser.isEmpty()) {

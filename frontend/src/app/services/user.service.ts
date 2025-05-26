@@ -49,17 +49,29 @@ export class UserService {
   }
 
   getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.API_URL}/by-username/${username}`, {
-      headers: this.getAuthHeaders()
-    });
-  }
+  const token = localStorage.getItem('token');
+  const options = token && token !== '{}'
+    ? { headers: this.getAuthHeaders() }
+    : {};
+  return this.http.get<User>(`${this.API_URL}/by-username/${username}`, options);
+}
 
   getUserByUsernameWithLocation(username: string, lat: number, lon: number): Observable<User> {
-    return this.http.get<User>(`http://192.168.1.69:8080/api/users/by-username/${username}`, {
-      params: {
-        lat: lat.toString(),
-        lon: lon.toString()
+  const token = localStorage.getItem('token');
+  const options = token && token !== '{}'
+    ? {
+        headers: this.getAuthHeaders(),
+        params: {
+          lat: lat.toString(),
+          lon: lon.toString()
+        }
       }
-    });
-  }
+    : {
+        params: {
+          lat: lat.toString(),
+          lon: lon.toString()
+        }
+      };
+  return this.http.get<User>(`${this.API_URL}/by-username/${username}`, options);
+}
 }
