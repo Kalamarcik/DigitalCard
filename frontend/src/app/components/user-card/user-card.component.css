@@ -137,7 +137,6 @@
   background-color: #005fa3;
 }
 
-/* Modal stilleri (önceden varsa eklemene gerek yok) */
 .modal-backdrop {
   position: fixed;
   top: 0;

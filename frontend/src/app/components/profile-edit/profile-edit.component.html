@@ -1,89 +1,105 @@
-<h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Profil Düzenle</h2>
+<div class="p-8 space-y-6">
+  <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Profil Düzenle</h2>
 
-<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
-  <!-- Ad Soyad -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ad Soyad</label>
-    <input formControlName="fullName" type="text"
-      class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-  </div>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Ad Soyad -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ad Soyad</label>
+      <input
+  formControlName="fullName"
+  type="text"
+  class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+/>
 
-  <!-- Biyografi -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Biyografi</label>
-    <textarea formControlName="bio"
-      class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      rows="3"></textarea>
-  </div>
+    </div>
 
-  <!-- Avatar URL -->
-  <div>
-    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Avatar URL</label>
-    <input formControlName="avatarUrl" type="text"
-      class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-  </div>
+    <!-- Biyografi -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Biyografi</label>
+      <textarea formControlName="bio"
+        class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        rows="3"></textarea>
+    </div>
 
-  <!-- Sosyal Medya Hesapları -->
-  <div>
-    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mt-6 mb-3">Sosyal Medya Hesapları</h3>
-    <div formArrayName="socialMediaList" class="space-y-4">
-      <div *ngFor="let sm of socialMediaList.controls; let i = index" [formGroupName]="i"
-        class="bg-gray-100 dark:bg-gray-800 p-4 rounded-xl space-y-4">
-        
-        <!-- Platform Seçimi -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Platform</label>
-          <select formControlName="platform"
-            class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="">Platform Seçin</option>
-            <option value="GitHub">GitHub</option>
-            <option value="LinkedIn">LinkedIn</option>
-            <option value="Twitter">Twitter</option>
-            <option value="Instagram">Instagram</option>
-            <option value="Medium">Medium</option>
-            <option value="StackOverflow">StackOverflow</option>
-          </select>
-        </div>
+    <!-- Avatar URL -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Avatar URL</label>
+      <input formControlName="avatarUrl" type="text"
+        class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+    </div>
 
-        <!-- URL + İkon -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL</label>
-          <div class="flex items-center gap-2">
-            <fa-icon
-              [icon]="icons[sm.get('platform')?.value]"
-              size="lg"
-              class="text-gray-700 dark:text-white"
-              *ngIf="icons[sm.get('platform')?.value]"
-            ></fa-icon>
+    <!-- Sosyal Medya Hesapları -->
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white mt-6 mb-3">Sosyal Medya Hesapları</h3>
+      <div formArrayName="socialMediaList" class="space-y-4">
+        <div
+  *ngFor="let sm of socialMediaList.controls; let i = index"
+  [formGroupName]="i"
+  class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg space-y-3 border border-gray-200 dark:border-gray-700"
+>
 
-            <input formControlName="url" type="text"
-              class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+
+          <!-- Platform -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Platform</label>
+            <select formControlName="platform"
+              class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="">Platform Seçin</option>
+              <option value="GitHub">GitHub</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Twitter">Twitter</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Medium">Medium</option>
+              <option value="StackOverflow">StackOverflow</option>
+            </select>
           </div>
-        </div>
 
-        <!-- Silme Butonu -->
-        <div class="text-right">
-          <button type="button" (click)="removeSocialMedia(i)"
-            class="text-sm px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all">Vazgeç</button>
+          <!-- URL -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">URL</label>
+            <div class="flex items-center gap-2">
+              <fa-icon
+                [icon]="icons[sm.get('platform')?.value]"
+                size="lg"
+                class="text-gray-700 dark:text-white"
+                *ngIf="icons[sm.get('platform')?.value]"
+              ></fa-icon>
+              <input formControlName="url" type="text"
+                class="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+          </div>
+
+          <!-- Sil -->
+          <div class="text-right">
+            <button type="button" (click)="removeSocialMedia(i)"
+              class="text-sm px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all">Vazgeç</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Yeni Hesap Ekle -->
-  <button type="button" (click)="addSocialMedia()"
-    class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all">
-    ➕ Yeni Hesap Ekle
-  </button>
+    <!-- Yeni Hesap Ekle -->
+    <button
+  type="button"
+  (click)="addSocialMedia()"
+  class="text-sm px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition"
+>
+  ➕ Yeni Hesap Ekle
+</button>
 
-  <!-- Kaydet Butonu -->
-  <div class="pt-6">
-    <button type="submit"
-      class="w-full px-6 py-3 bg-green-500 hover:bg-green-600 text-white text-lg font-semibold rounded-xl transition-all">
-      💾 Kaydet
-    </button>
-  </div>
-</form>
 
-<!-- Mesaj -->
-<p class="mt-4 text-sm text-green-600 dark:text-green-400 font-medium" *ngIf="message">{{ message }}</p>
+    <!-- Kaydet -->
+    <div class="pt-6">
+      <button
+  type="submit"
+  class="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition"
+>
+  💾 Kaydet
+</button>
+
+    </div>
+  </form>
+
+  <!-- Mesaj -->
+  <p class="mt-4 text-sm text-green-600 dark:text-green-400 font-medium" *ngIf="message">{{ message }}</p>
+</div>

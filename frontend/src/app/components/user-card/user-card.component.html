@@ -100,12 +100,31 @@
 </div>
 
 <!-- Profil Düzenleme Modal -->
-<div class="modal-overlay" *ngIf="showProfileModal && editable">
-  <div class="modal-content bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-2xl relative">
-    <button class="modal-close" (click)="closeProfileModal()">×</button>
-    <app-profile-edit></app-profile-edit>
+<div
+  *ngIf="showProfileModal && editable"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70"
+>
+  <div
+    class="relative w-full max-w-md max-h-[90vh] rounded-xl shadow-2xl bg-white dark:bg-gray-900 overflow-hidden"
+  >
+    <button
+      (click)="closeProfileModal()"
+      class="absolute top-2 right-4 text-2xl text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white z-10"
+    >
+      ×
+    </button>
+
+    <!-- SCROLLABLE CONTENT -->
+    <div class="overflow-y-auto h-full max-h-[90vh] p-4 sm:p-6 pr-5">
+      <app-profile-edit></app-profile-edit>
+    </div>
   </div>
 </div>
+
+
+
+
+
 
 <!-- İletişim Modal -->
 <div class="modal-overlay" *ngIf="contactModalOpen">
