@@ -31,15 +31,24 @@ message: any;
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
-      this.http.post('http://192.168.1.69:8080/api/auth/register', this.form.value).subscribe({
-        next: () => {
+  if (this.form.valid) {
+    this.http.post('http://192.168.1.69:8080/api/auth/register', this.form.value, {
+      responseType: 'text' // ✅ Kilit nokta
+    }).subscribe({
+      next: (res) => {
+        this.message = res || '✅ Kayıt başarılı!';
+        this.errorMessage = '';
+        setTimeout(() => {
           this.router.navigate(['/auth/login']);
-        },
-        error: () => {
-          this.errorMessage = 'Kayıt başarısız. Lütfen tekrar deneyin.';
-        }
-      });
-    }
+        }, 2500);
+      },
+      error: () => {
+        this.message = '';
+        this.errorMessage = '❌ Kayıt başarısız. Lütfen tekrar deneyin.';
+      }
+    });
   }
+}
+
+
 }

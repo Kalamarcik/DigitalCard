@@ -1,98 +1,81 @@
-<div class="register-container max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-2xl space-y-6 mt-12 animate-fade-in">
+<div class="max-w-sm mx-auto bg-gray-100 dark:bg-gray-900 rounded-2xl shadow-xl px-6 py-8 space-y-5 mt-10 animate-fade-in">
   <!-- Başlık -->
-  <h2 class="text-3xl font-extrabold text-center text-indigo-600 dark:text-indigo-400">
-    👤 Hesap Oluştur
-  </h2>
-  <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-    Lütfen bilgilerinizi girin
-  </p>
+  <div class="text-center space-y-1">
+    <h2 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">👤 Kayıt Ol</h2>
+    <p class="text-xs text-gray-500 dark:text-gray-400">Lütfen bilgilerinizi girin</p>
+  </div>
 
   <!-- Form -->
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
 
     <!-- E-posta -->
     <div>
-      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i> E-posta
+      <label class="flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-envelope text-gray-500 dark:text-gray-400 text-sm"></i> E-posta
       </label>
-      <input
-        formControlName="email"
-        type="email"
-        placeholder="E-posta adresiniz"
-        class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:outline-none transition"
-      />
+      <input formControlName="email" type="email" placeholder="E-posta"
+        class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" />
     </div>
 
     <!-- Kullanıcı Adı -->
     <div>
-      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        <i class="fas fa-user text-gray-500 dark:text-gray-400"></i> Kullanıcı Adı
+      <label class="flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-user text-gray-500 dark:text-gray-400 text-sm"></i> Kullanıcı Adı
       </label>
-      <input
-        formControlName="username"
-        type="text"
-        placeholder="Kullanıcı adınız"
-        class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:outline-none transition"
-      />
+      <input formControlName="username" type="text" placeholder="Kullanıcı adı"
+        class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" />
     </div>
 
     <!-- Ad Soyad -->
     <div>
-      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        <i class="fas fa-id-card text-gray-500 dark:text-gray-400"></i> Ad Soyad
+      <label class="flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-id-card text-gray-500 dark:text-gray-400 text-sm"></i> Ad Soyad
       </label>
-      <input
-        formControlName="fullName"
-        type="text"
-        placeholder="Adınız ve Soyadınız"
-        class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:outline-none transition"
-      />
+      <input formControlName="fullName" type="text" placeholder="Adınız Soyadınız"
+        class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" />
     </div>
 
     <!-- Şifre -->
     <div>
-      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        <i class="fas fa-lock text-gray-500 dark:text-gray-400"></i> Şifre
+      <label class="flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-lock text-gray-500 dark:text-gray-400 text-sm"></i> Şifre
       </label>
-      <input
-        formControlName="password"
-        type="password"
-        placeholder="Şifreniz"
-        class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:outline-none transition"
-      />
+      <input formControlName="password" type="password" placeholder="Şifreniz"
+        class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" />
     </div>
 
-    <!-- Avatar URL -->
+    <!-- Avatar -->
     <div>
-      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        <i class="fas fa-image text-gray-500 dark:text-gray-400"></i>
-        Avatar URL <span class="text-xs text-gray-400">(isteğe bağlı)</span>
+      <label class="flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-image text-gray-500 dark:text-gray-400 text-sm"></i> Avatar URL
+        <span class="text-[10px] text-gray-400">(opsiyonel)</span>
       </label>
-      <input
-        formControlName="avatarUrl"
-        type="text"
-        placeholder="https://..."
-        class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-indigo-500 focus:outline-none transition"
-      />
+      <input formControlName="avatarUrl" type="text" placeholder="https://..."
+        class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500" />
     </div>
 
     <!-- Kayıt Butonu -->
     <button
       type="submit"
       [disabled]="form.invalid"
-      class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-full py-2 text-sm font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
     >
       📝 Kayıt Ol
     </button>
   </form>
 
-  <!-- Mesaj -->
-  <p *ngIf="message" class="text-sm text-green-600 dark:text-green-400 text-center">
+  <!-- Başarı Mesajı -->
+  <p *ngIf="message" class="text-xs text-green-600 dark:text-green-400 text-center">
     {{ message }}
   </p>
 
+  <!-- Hata Mesajı -->
+  <p *ngIf="errorMessage" class="text-xs text-red-600 dark:text-red-400 text-center">
+    {{ errorMessage }}
+  </p>
+
   <!-- Giriş Linki -->
-  <p class="text-sm text-center text-gray-600 dark:text-gray-400">
+  <p class="text-xs text-center text-gray-600 dark:text-gray-400">
     Zaten hesabınız var mı?
     <a routerLink="/auth/login" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Giriş Yap</a>
   </p>
