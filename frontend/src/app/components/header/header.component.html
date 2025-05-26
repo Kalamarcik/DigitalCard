@@ -1,11 +1,19 @@
-<nav class="navbar">
-  <a routerLink="/" class="logo">Dijital Kart</a>
+<nav class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 shadow-md">
+  <!-- Logo -->
+  <a routerLink="/" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+    Dijital Kart
+  </a>
 
-  <div class="nav-links">
-    <a *ngIf="!isLoggedIn" routerLink="/auth/login">Giriş Yap</a>
-    <a *ngIf="!isLoggedIn" routerLink="/auth/register">Kayıt Ol</a>
+  <!-- Navigasyon Bağlantıları -->
+  <div class="flex items-center gap-4 text-sm font-medium text-gray-700 dark:text-gray-200">
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/auth/login" class="hover:text-indigo-600 transition">Giriş Yap</a>
+      <a routerLink="/auth/register" class="hover:text-indigo-600 transition">Kayıt Ol</a>
+    </ng-container>
 
-    <a *ngIf="isLoggedIn" routerLink="/profile">Profil</a>
-    <a *ngIf="isLoggedIn" (click)="logout()" class="logout">Çıkış Yap</a>
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/profile" class="hover:text-indigo-600 transition">Profil</a>
+      <button (click)="logout()" class="hover:text-red-500 transition">Çıkış Yap</button>
+    </ng-container>
   </div>
 </nav>

@@ -28,11 +28,13 @@ export class ProjectService {
   }
 
   getProjectsByUserId(userId: number): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.API_URL}/user/${userId}`, {
-      headers: this.getAuthHeaders()
-    });
-  }
+  const token = localStorage.getItem('token');
+  const options = token
+    ? { headers: this.getAuthHeaders() }
+    : {}; // login yoksa header gönderme
 
+  return this.http.get<Project[]>(`${this.API_URL}/user/${userId}`, options);
+}
   uploadProject(formData: FormData): Observable<Project> {
     return this.http.post<Project>(this.API_URL, formData, {
       headers: this.getAuthHeaders()

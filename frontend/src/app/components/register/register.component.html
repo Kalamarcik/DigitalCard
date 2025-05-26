@@ -1,11 +1,20 @@
-<div class="register-container max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-lg space-y-6">
-  <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white">Kayıt Ol</h2>
+<div class="register-container max-w-md mx-auto bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-2xl space-y-6 mt-12 animate-fade-in">
+  <!-- Başlık -->
+  <h2 class="text-3xl font-extrabold text-center text-indigo-600 dark:text-indigo-400">
+    👤 Hesap Oluştur
+  </h2>
+  <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+    Lütfen bilgilerinizi girin
+  </p>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
 
     <!-- E-posta -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">E-posta</label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-envelope text-gray-500 dark:text-gray-400"></i> E-posta
+      </label>
       <input
         formControlName="email"
         type="email"
@@ -16,7 +25,9 @@
 
     <!-- Kullanıcı Adı -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kullanıcı Adı</label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-user text-gray-500 dark:text-gray-400"></i> Kullanıcı Adı
+      </label>
       <input
         formControlName="username"
         type="text"
@@ -27,7 +38,9 @@
 
     <!-- Ad Soyad -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ad Soyad</label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-id-card text-gray-500 dark:text-gray-400"></i> Ad Soyad
+      </label>
       <input
         formControlName="fullName"
         type="text"
@@ -38,7 +51,9 @@
 
     <!-- Şifre -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Şifre</label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-lock text-gray-500 dark:text-gray-400"></i> Şifre
+      </label>
       <input
         formControlName="password"
         type="password"
@@ -49,7 +64,10 @@
 
     <!-- Avatar URL -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Avatar URL <span class="text-xs text-gray-400">(isteğe bağlı)</span></label>
+      <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <i class="fas fa-image text-gray-500 dark:text-gray-400"></i>
+        Avatar URL <span class="text-xs text-gray-400">(isteğe bağlı)</span>
+      </label>
       <input
         formControlName="avatarUrl"
         type="text"
@@ -58,17 +76,24 @@
       />
     </div>
 
-    <!-- Kayıt Ol Butonu -->
+    <!-- Kayıt Butonu -->
     <button
       type="submit"
-      class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition"
+      [disabled]="form.invalid"
+      class="w-full py-2.5 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      Kayıt Ol
+      📝 Kayıt Ol
     </button>
   </form>
 
   <!-- Mesaj -->
   <p *ngIf="message" class="text-sm text-green-600 dark:text-green-400 text-center">
     {{ message }}
+  </p>
+
+  <!-- Giriş Linki -->
+  <p class="text-sm text-center text-gray-600 dark:text-gray-400">
+    Zaten hesabınız var mı?
+    <a routerLink="/auth/login" class="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">Giriş Yap</a>
   </p>
 </div>

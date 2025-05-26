@@ -24,10 +24,13 @@ export class SkillService {
   }
 
   getSkillsByUserId(userId: number): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.apiUrl}/user/${userId}`, {
-      headers: this.getAuthHeaders()
-    });
-  }
+  const token = localStorage.getItem('token');
+  const options = token
+    ? { headers: this.getAuthHeaders() }
+    : {}; // login yoksa header gönderilmesin
+
+  return this.http.get<Skill[]>(`${this.apiUrl}/user/${userId}`, options);
+}
 
   addSkill(skill: Skill): Observable<Skill> {
     return this.http.post<Skill>(this.apiUrl, skill, {
