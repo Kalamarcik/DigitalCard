@@ -12,7 +12,7 @@ Bu proje, kullanıcıların dijital profil kartlarını oluşturabildiği, sosya
 - PostgreSQL
 - JPA / Hibernate
 - RESTful API
-- Dosya yükleme desteği (`/uploads` klasörü)
+
 
 ### Frontend (Angular)
 - Angular 17 (Standalone Components)
@@ -88,24 +88,25 @@ Tarayıcıdan aç: [http://localhost:4200](http://localhost:4200)
 ## 🔐 Giriş Bilgileri
 
 ```txt
-Varsayılan kullanıcı: testuser@example.com / 123456
-(ya da kendi kayıt sistemi ile kullanıcı oluşturabilirsiniz)
+
+ Uygulamanın kayıt sistemi ile kullanıcı oluşturabilirsiniz
 ```
 
 ---
 
-## 📡 API Rotaları (Örnekler)
+## 📡 API Rotaları 
 
-> Daha fazlası için Postman collection veya Swagger entegrasyonu önerilir.
 
-- `POST /api/auth/login`  
-- `POST /api/users/register`  
-- `GET /api/users/{id}`  
-- `PUT /api/users/update/{id}`  
-- `POST /api/users/image-upload/{id}`  
-- `GET /api/users/cards/{username}`  
-- `GET /api/users/qr/{username}`  
-- `GET /uploads/{filename}`  
+
+POST   /api/users                        → Yeni kullanıcı oluştur  
+GET    /api/users                        → Tüm kullanıcıları getir  
+DELETE /api/users/{id}                  → ID ile kullanıcıyı sil  
+GET    /api/users/{id}                  → ID ile kullanıcı bilgisi  
+GET    /api/users/by-username/{username} → Kullanıcıyı username ile getir (
+GET    /api/users/cards                 → Tüm kullanıcı kartlarını listele 
+GET    /api/users/qr/username/{username} → Belirli kullanıcı için QR kod 
+PUT    /api/users/{id}                  → Kullanıcıyı ve sosyal medya bağlantılarını güncelle  
+
 
 ---
 
@@ -116,13 +117,8 @@ Varsayılan kullanıcı: testuser@example.com / 123456
 - 🔗 Sosyal medya bağlantıları ekleyebilme
 - 📝 Profil düzenleme (ad, biyografi, avatar, yetkinlik vs.)
 - 🖼️ Görsel yükleme desteği
-- 📦 Dosya boyutu sınırlamaları (10MB’a kadar)
 
----
 
-## 📝 Lisans
-
-MIT License © 2025
 
 ---
 
@@ -135,4 +131,4 @@ MIT License © 2025
 
 ---
 
-> 📌 Bu belge senin proje için özel hazırlanmıştır. İleride yeni özellikler ekledikçe güncellemen yeterli olur.
+
